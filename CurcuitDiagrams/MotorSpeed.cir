@@ -7,7 +7,7 @@ Shape Version=11.00
 Screen=1920,1080
 MCAPVersion=12.2.0.0
 Key ID=Demo
-NLCnt=51
+NLCnt=53
 TXCnt=5
 
 [shapedef]
@@ -17,6 +17,22 @@ Line=22,-3,22,3
 Line=26,-7,26,7
 Line=26,0,48,0
 Current=32,8,16,8
+
+[shapedef]
+Name=Bjt.root
+Line=0,0,13,0
+Rectangle=13,-12,15,12
+Current=32,-24,32,-16
+Current=32,24,32,16
+Current=0,-8,8,-8
+PolyOpen=3
+PolyLine=24,-24
+PolyLine=24,-12
+PolyLine=14,-2
+PolyOpen=3
+PolyLine=24,24
+PolyLine=24,12
+PolyLine=14,2
 
 [shapedef]
 Name=Capacitor
@@ -36,6 +52,14 @@ Line=24,0,24,0
 [shapedef]
 Name=Minus.root
 Line=-2,0,2,0
+
+[shapedef]
+Name=NPN
+Root="Bjt.root",0,0,0
+PolyClosed=3
+PolyLine=20,12
+PolyLine=24,12
+PolyLine=24,8
 
 [shapedef]
 Name=Opamp5
@@ -168,7 +192,7 @@ Name=Resistor
 Definition=Resistor
 Shape=Resistor
 Mask=6145
-Used=199
+Used=203
 memo=Resistor
 Label Offset=18,6,8,11
 PinCnt=2
@@ -180,7 +204,7 @@ Name=Ground
 Definition=Ground
 Shape=Ground
 Mask=1793
-Used=292
+Used=296
 memo=Ground
 Label Offset=0,0,0,0
 PinCnt=1
@@ -206,7 +230,7 @@ Name=Capacitor
 Definition=Capacitor
 Shape=Capacitor
 Mask=6145
-Used=36
+Used=38
 memo=Capacitor
 Label Offset=16,12,12,12
 PinCnt=2
@@ -218,7 +242,7 @@ Name=Battery
 Definition=Battery
 Shape=Battery
 Mask=6401
-Used=69
+Used=71
 memo=Battery
 Label Offset=19,7,10,13
 PinCnt=2
@@ -239,6 +263,20 @@ Pin="Minus input",0,6,-36,17
 Pin="VEE",4,7,6,5
 Pin="Output",9,3,-13,-4
 Pin="VCC",4,-1,6,4
+
+[compdef]
+Name=2N2221A
+Definition=NPN
+Shape=NPN
+Mask=4224
+Used=1
+memo=NPN General Purpose Transistor Vceo=40V Ic=.8A Pd=.5W
+Label Offset=29,-11,-6,26
+PinCnt=3
+Pin="Collector",3,-3,5,3
+Pin="Base",0,0,-19,-3
+Pin="Emitter",3,3,6,4
+Power=0.5
 
 [Circuit]
 Window Placement=2,3, -1,-1, -8,-31, 0,156,949,630
@@ -268,17 +306,11 @@ Show Cross=False
 Show Attribute Text=True
 Show Grid Text=True
 
-[Wire]
-Pxs=184,248,184,336
-
-[Wire]
-Pxs=184,248,224,248
-
 [Comp]
 Name=Pulse Source
 Color=#0000FF
 FColor=#0000FF
-Px=184,384
+Px=120,448
 Rot=3
 
 [Attr]
@@ -313,14 +345,14 @@ V
 Color=#0000FF
 
 [Wire]
-Pxs=184,384,184,480
+Pxs=120,448,120,472
 
 [Wire]
-Pxs=184,480,240,480
+Pxs=120,472,200,472
 
 [Comp]
 Name=Resistor
-Px=224,248
+Px=208,280
 
 [Attr]
 ON=18,6,PART
@@ -329,7 +361,7 @@ Style=8192
 
 [Attr]
 ON=18,20,RESISTANCE
-V=150
+V=200
 Style=8192
 
 [Attr]
@@ -338,17 +370,11 @@ V
 
 [Comp]
 Name=Ground
-Px=240,480
+Px=200,472
 Rot=7
 
 [Wire]
-Pxs=240,480,304,480
-
-[Wire]
-Pxs=272,248,304,248
-
-[Wire]
-Pxs=304,248,304,280
+Pxs=200,472,272,472
 
 [Comp]
 Name=4N33_MC
@@ -368,10 +394,7 @@ ON=19,123,PACKAGE
 V=MOT730A-04
 
 [Wire]
-Pxs=304,320,304,480
-
-[Wire]
-Pxs=400,320,560,320
+Pxs=400,320,520,320
 
 [Wire]
 Pxs=400,360,400,368
@@ -396,7 +419,7 @@ Style=8192
 
 [Attr]
 ON=18,20,RESISTANCE
-V=5k
+V=2.2k
 Style=8192
 
 [Attr]
@@ -422,37 +445,10 @@ ON=0,0,PACKAGE
 V
 
 [Wire]
-Pxs=480,96,480,248
-
-[Wire]
-Pxs=480,96,544,96
-
-[Comp]
-Name=Resistor
-Px=480,248
-
-[Attr]
-ON=18,6,PART
-V=R4
-Style=8192
-
-[Attr]
-ON=18,20,RESISTANCE
-V=10k
-Style=8192
-
-[Attr]
-ON=0,0,PACKAGE
-V
-
-[Wire]
 Pxs=480,472,552,472
 
 [Wire]
 Pxs=504,368,552,368
-
-[Wire]
-Pxs=528,248,560,248
 
 [Wire]
 Pxs=552,368,552,400
@@ -488,49 +484,11 @@ Px=552,472
 Rot=7
 
 [Wire]
-Pxs=552,472,720,472
-
-[Comp]
-Name=Ground
-Px=544,96
-Rot=7
-
-[Wire]
-Pxs=544,96,632,96
-
-[Wire]
-Pxs=560,248,560,320
-
-[Wire]
-Pxs=560,248,568,248
-
-[Comp]
-Name=Resistor
-Px=568,248
-
-[Attr]
-ON=18,6,PART
-V=R5
-Style=8192
-
-[Attr]
-ON=18,20,RESISTANCE
-V=2k
-Style=8192
-
-[Attr]
-ON=0,0,PACKAGE
-V
-
-[Wire]
-Pxs=616,248,632,248
-
-[Wire]
-Pxs=632,96,632,168
+Pxs=552,472,584,472
 
 [Comp]
 Name=Battery
-Px=632,168
+Px=720,144
 Rot=1
 
 [Attr]
@@ -548,13 +506,7 @@ ON=0,0,PACKAGE
 V
 
 [Wire]
-Pxs=632,216,632,224
-
-[Wire]
-Pxs=632,224,720,224
-
-[Wire]
-Pxs=632,224,632,248
+Pxs=720,192,720,320
 
 [Wire]
 Pxs=656,416,688,416
@@ -591,9 +543,6 @@ ON=51,102,COMPNAME
 V=UX1
 
 [Wire]
-Pxs=720,224,720,360
-
-[Wire]
 Pxs=720,424,720,472
 
 [Wire]
@@ -603,26 +552,155 @@ Pxs=760,392,792,392
 Pxs=792,392,792,448
 
 [Wire]
-Pxs=792,392,816,392
+Pxs=720,120,720,144
+
+[Wire]
+Pxs=720,120,888,120
+
+[Wire]
+Pxs=888,120,888,488
+
+[Wire]
+Pxs=584,488,888,488
+
+[Wire]
+Pxs=584,472,584,488
+
+[Wire]
+Pxs=584,472,720,472
+
+[Comp]
+Name=2N2221A
+Px=248,376
+
+[Attr]
+ON=29,-11,PART
+V=Q1
+Style=8192
+
+[Attr]
+ON=29,3,MODEL
+V=2N2222A
+
+[Attr]
+ON=29,17,POWER
+V=0.5
+
+[Attr]
+ON=29,45,PACKAGE
+V=TO-18
+
+[Comp]
+Name=Resistor
+Px=168,376
+
+[Attr]
+ON=18,6,PART
+V=R4
+Style=8192
+
+[Attr]
+ON=18,20,RESISTANCE
+V=10k
+Style=8192
+
+[Attr]
+ON=0,0,PACKAGE
+V
+
+[Wire]
+Pxs=120,376,120,400
+
+[Wire]
+Pxs=120,376,168,376
+
+[Wire]
+Pxs=216,376,248,376
+
+[Wire]
+Pxs=272,320,272,352
+
+[Wire]
+Pxs=272,320,304,320
+
+[Wire]
+Pxs=272,400,272,472
+
+[Comp]
+Name=Battery
+Px=80,280
+Rot=4
+
+[Attr]
+ON=10,13,PART
+V=V3
+Style=8192
+
+[Attr]
+ON=10,27,VALUE
+V=5
+Style=8192
+
+[Attr]
+ON=0,0,PACKAGE
+V
+
+[Comp]
+Name=Ground
+Px=40,280
+Rot=7
+
+[Wire]
+Pxs=40,280,80,280
+
+[Wire]
+Pxs=256,280,304,280
+
+[Comp]
+Name=Resistor
+Px=520,320
+
+[Attr]
+ON=18,6,PART
+V=R5
+Style=8192
+
+[Attr]
+ON=18,20,RESISTANCE
+V=1k
+Style=8192
+
+[Attr]
+ON=0,0,PACKAGE
+V
+
+[Wire]
+Pxs=568,320,720,320
+
+[Wire]
+Pxs=720,320,720,360
+
+[Wire]
+Pxs=128,280,208,280
 
 [Flag]
-Text="~10V"
-Px=464,320
+Text="GPIO 5V"
+Px=80,264
 GridSnap=True
 JustifyH=Left
 JustifyV=Bottom
 CBorder=None
 
 [Flag]
-Text="Dzielnik napiêcia"
-Px=504,232
+Text="Filtr RC dolnoprzepustowy"
+Px=408,528
 GridSnap=True
 JustifyH=Left
 JustifyV=Bottom
 CBorder=None
 
 [Flag]
-Text="4N33 - transoptor"
+Text="transoptor"
 Px=320,264
 GridSnap=True
 JustifyH=Left
@@ -631,7 +709,7 @@ CBorder=None
 
 [Flag]
 Text="Akumulator - 12V"
-Px=656,152
+Px=752,216
 GridSnap=True
 JustifyH=Left
 JustifyV=Bottom
@@ -639,7 +717,7 @@ CBorder=None
 
 [Flag]
 Text="PWM"
-Px=112,368
+Px=64,416
 GridSnap=True
 JustifyH=Left
 JustifyV=Bottom
@@ -653,7 +731,7 @@ CurrentSection 3=0
 Splitter.xs=0
 Splitter.ys=0
 TextQuad=4099
-Scale=1
+Scale=0.66666666666666663
 GridUser=10
 ShapeGroups="Main","Euro","Polarity","Main1","Main11","Electrolytic","GroundArrow","DeMorgan"
 CalcRMS=False
@@ -819,7 +897,7 @@ ALIGNBOTTOM=Yes
 
 [Section]
 Index=0
-Name="circuit5"
+Name="MotorSpeed"
 Type=Main
 Enable=True
 CurrentPage 0=0
@@ -841,9 +919,9 @@ PrinterScale=1
 Scale 0=1
 Scale 1=1
 Scale 2=1
-SB 3=0,7
-Scale 3=1
-Px=549,111
+SB 3=0,96
+Scale 3=0.66666666666666663
+Px=651,332
 WinBackGround Color=#FFFFFF
 Select Color=#FF0000
 Anchor Color=#000000
@@ -907,6 +985,7 @@ Type=Text
 Print=False
 Enable=True
 Name=Models
+SB 0=69,18
 Font=Height=-15,FStyle=0,Color=#000000,Name=Courier New
 Comment Color=#008000
 WinBackGround Color=#FFFFFF
@@ -955,7 +1034,13 @@ Text=* A .cir file is typically found in the data directory
 Text=*
 Text=*** From file C:\Users\rokun\Downloads\mc12cd\library\UTILITY.LBR
 Text=*** 5V Square Wave
-Text=.MODEL SQUARE PUL (P1=0 P2=1n P3=0.40m P4=0.4000001m P5=1m VONE=3.3)
+Text=.MODEL SQUARE PUL (P1=0 P2=1n P3=0.500m P4=0.5000001m P5=1m VONE=3.3)
+Text=*** From file C:\Users\rokun\Downloads\mc12cd\library\MSBJT.LBR
+Text=*** NPN General purpose transistor
+Text=.MODEL 2N2221A NPN (BF=112.57 BR=171.222m CJC=36.6437p CJE=35.3531p
+Text=+ IKF=314.795m IKR=476.235 IS=10.017f ISC=2.93412p ISE=955.182f ITF=10.0483m
+Text=+ MJC=558.066m MJE=642.88m NE=1.61283 NF=979.99m RE=668.817m TF=426.092p
+Text=+ TR=2.30117u VAF=100 VJC=700m VJE=700m VTF=10 XTF=499.996m)
 
 [InfoPage]
 InfoPage=True
@@ -1228,10 +1313,10 @@ AliasID=1
 XExp=T
 YExp=v(1)
 XRng=1
-YRng=6
+YRng=7.5
 Options=LINEARX,LINEARY
 Range Grid X=0.2
-Range Grid Y=1.2
+Range Grid Y=1.5
 Enable=Enable
 Line Color=#0000FF
 Text Color=#0000FF
@@ -1250,15 +1335,41 @@ NOFmtY=3E
 [WaveForm]
 Analysis=Transient
 Plt=1
-AliasID=4
+AliasID=5
 XExp=T
-YExp=v(2)
+YExp=I(R5)*I(R5)*1k
 XRng=1
-YRng=1.6,-0.4
+YRng=0.015
 Options=LINEARX,LINEARY
 Range Grid X=0.2
-Range Grid Y=0.4
+Range Grid Y=0.003
 Enable=Hide
+Line Color=#20FF58
+Text Color=#20FF58
+Rainbow=False
+VFmtX=3
+VFmtY=3
+ScaleFactorX="None"
+ScaleFactorY="None"
+ScaleUnitsX="Auto"
+ScaleUnitsY="Auto"
+SFmtX=2
+SFmtY=2
+NOFmtX=3E
+NOFmtY=3E
+
+[WaveForm]
+Analysis=Transient
+Plt=1
+AliasID=4
+XExp=T
+YExp=v(10)
+XRng=1
+YRng=7.5
+Options=LINEARX,LINEARY
+Range Grid X=0.2
+Range Grid Y=1.5
+Enable=Enable
 Line Color=#FF0000
 Text Color=#FF0000
 Rainbow=False
@@ -1278,41 +1389,15 @@ Analysis=Transient
 Plt=1
 AliasID=2
 XExp=T
-YExp=v(8)
+YExp=v(10)
 XRng=1
-YRng=6
+YRng=12.5
 Options=LINEARX,LINEARY
 Range Grid X=0.2
-Range Grid Y=1.2
-Enable=Enable
+Range Grid Y=2.5
+Enable=Hide
 Line Color=#FF0000
 Text Color=#FF0000
-Rainbow=False
-VFmtX=3
-VFmtY=3
-ScaleFactorX="None"
-ScaleFactorY="None"
-ScaleUnitsX="Auto"
-ScaleUnitsY="Auto"
-SFmtX=2
-SFmtY=2
-NOFmtX=3E
-NOFmtY=3E
-
-[WaveForm]
-Analysis=Transient
-Plt=1
-AliasID=5
-XExp=T
-YExp=v(2)/150
-XRng=1
-YRng=0.012,-0.003
-Options=LINEARX,LINEARY
-Range Grid X=0.2
-Range Grid Y=0.003
-Enable=Hide
-Line Color=#008000
-Text Color=#008000
 Rainbow=False
 VFmtX=3
 VFmtY=3

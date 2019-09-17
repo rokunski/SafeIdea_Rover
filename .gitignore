@@ -1,3 +1,4 @@
 *.TNO
 *.inx
+*.bak_cir
 node_modules
