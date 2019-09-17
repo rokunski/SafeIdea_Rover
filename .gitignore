@@ -1,4 +1,6 @@
+# pomiń pliki Micro Cap-a powstałe przy uruchamianiu obwodu
 *.TNO
 *.inx
 *.bak_cir
+
 node_modules
