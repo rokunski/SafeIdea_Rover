@@ -3,4 +3,8 @@
 *.inx
 *.bak_cir
 
+#pomiń jakieś pliki EAGLE'a
+*.b#*
+*.s#*
+
 node_modules
