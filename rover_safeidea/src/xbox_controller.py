@@ -50,7 +50,7 @@ class controller():
 
 if __name__ == "__main__":
 	#device_dir = '/dev/input/'  # path to input devices
-	xbox = xbox_controller()
+	xbox = controller()
 	xbox.run()
 
 
