@@ -2,6 +2,6 @@ Do kupienia (bez dzp):
 - REZYSTORY x1 https://botland.com.pl/pl/zestawy-rezystorow/4322-zestaw-rezystorow-cf-tht-14w-opisany-160szt.html
 - TRANSOPTOR x4 https://botland.com.pl/pl/optoizolatory/1951-transoptor-jednokanalowy-pc817-tht.html
 - WZMACNIACZ x4 https://botland.com.pl/pl/wzmacniacze-operacyjne/9880-wzmacniacz-operacyjny-lm358pn.html
-- TRNAZYSTOR x1 https://botland.com.pl/pl/tranzystory-bipolarne/1775-tranzystor-bipolarny-npn-2n3904-40v02a-5szt.html
+- TRANZYSTOR x1 https://botland.com.pl/pl/tranzystory-bipolarne/1775-tranzystor-bipolarny-npn-2n3904-40v02a-5szt.html
 - KONDENSATOR x1 https://botland.com.pl/pl/kondensatory-ceramiczne-tht/7287-kondensator-monolityczny-1uf50v-x7r-10szt.html
-- Z£¥CZE x5 https://botland.com.pl/pl/zlacza-ark/808-zlacze-ark-kf301-raster-50mm-3-pin-.html
+- ZLACZE ARK x5 https://botland.com.pl/pl/zlacza-ark/808-zlacze-ark-kf301-raster-50mm-3-pin-.html
