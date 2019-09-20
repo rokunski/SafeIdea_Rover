@@ -1,5 +1,6 @@
 #!/bin/bash
 sudo apt install hostapd iproute2 iw haveged dnsmasq iptables procps bash util-linux
+cd ~/Documents
 git clone https://github.com/oblique/create_ap
 cd create_ap/
 sudo make install
