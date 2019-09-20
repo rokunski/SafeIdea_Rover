@@ -22,7 +22,9 @@ class controller():
 
 		rospy.init_node('controller')
 
-		self.pub = rospy.Publisher('controller_data', Controller, queue_size=10)
+		topic_name = rospy.get_param('controller_topic')
+
+		self.pub = rospy.Publisher(topic_name, Controller, queue_size=10)
 		self.msg_to_publish = Controller()
 		self.msg_to_publish.status = False
 		self.msg_to_publish.forward = 0
@@ -182,10 +184,11 @@ class controller():
 					if rospy.is_shutdown():
 						break
 			except:
-				rospy.loginfo("Controller is disconected")
+				rospy.loginfo("Controller is disconnected")
 				os.system("rosnode list | grep -v rosout | xargs rosnode kill")
 
 			rate.sleep()
+
 
 if __name__ == "__main__":
 	#device_dir = '/dev/input/'  # path to input devices

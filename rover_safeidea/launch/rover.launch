@@ -1,5 +1,6 @@
 <launch>
-    <!-- My Package launch file -->
-    <node pkg="rover_safeidea" type="xbox_controller.py" name="controller"  output="screen">
-    </node>
+    <param name="controller_topic" type="string" value="controller_data" />
+
+    <node pkg="rover_safeidea" type="xbox_controller.py" name="controller"  output="screen"/>
+ 	<node pkg="rover_safeidea" type="pc_master.py" name="master"  output="screen"/>
 </launch>
