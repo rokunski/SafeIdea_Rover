@@ -50,6 +50,7 @@ find_package(catkin REQUIRED COMPONENTS
 DIRECTORY msg
    FILES
    Controller.msg
+   Keyboard.msg
 #   Message2.msg
 )
 

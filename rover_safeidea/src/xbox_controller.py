@@ -67,12 +67,9 @@ class controller():
 			self.send_messege()
 
 	def send_messege(self):
-		try:
-			self.msg_to_publish.forward = self.forward
-			self.msg_to_publish.backward = self.backward
-			self.msg_to_publish.direction = self.direction
-		except:
-			rospy.loginfo("Unable to send message!")
+		self.msg_to_publish.forward = self.forward
+		self.msg_to_publish.backward = self.backward
+		self.msg_to_publish.direction = self.direction
 		self.pub.publish(self.msg_to_publish)
 
 	def find_controller_codes(self):
@@ -135,10 +132,14 @@ class controller():
 
 	def button_event(self, event):
 		if event.code == self.btnSELECT:
+			self.msg_to_publish.status = Joy.NOT_WORKING.value
+			self.send_messege()
 			rospy.loginfo("Ending.........")
 			rospy.signal_shutdown('Quit')
+			return True
+		return False
 
-	def axis_event(self,event):
+	def axis_event(self, event):
 		if event.code == self.R2.code:
 			self.forward = int((event.value - self.R2.vmin)/(self.R2.vmax-self.R2.vmin)*255)
 			#rospy.loginfo("forward velocity: {0}%".format(self.forward))
@@ -189,7 +190,9 @@ class controller():
 						#rospy.loginfo(event)
 						#self.send_messege()
 					elif event.type == ecodes.EV_KEY:
-						self.button_event(event)
+						sig = self.button_event(event)
+						if sig:
+							break
 						#rospy.loginfo(categorize(event))
 						#self.send_messege()
 			except KeyboardInterrupt:
@@ -198,7 +201,7 @@ class controller():
 				rospy.loginfo("Ending.......")
 				rospy.signal_shutdown('Quit')
 				continue
-			except:
+			except Exception as e:
 				self.msg_to_publish.status = Joy.DISCONNECTED.value
 				self.send_messege()
 				rospy.loginfo("Controller is disconnected")
