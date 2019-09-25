@@ -5,6 +5,7 @@ import os, time, re
 from evdev import InputDevice, categorize, ecodes, list_devices
 from std_msgs.msg import String
 from rover_msg.msg import Controller
+from enumerate import Joy
 
 
 class axis():
@@ -18,18 +19,20 @@ class axis():
 class controller():
 
 	def __init__(self, device_dir='/dev/input/'):
+
+		rospy.init_node('controller', disable_signals=True)
 		rospy.loginfo("Setting up the Xbox controller node ...")
 
-		rospy.init_node('controller')
+		#topic_name = rospy.get_param('controller_topic')
 
-		topic_name = rospy.get_param('controller_topic')
-
-		self.pub = rospy.Publisher(topic_name, Controller, queue_size=10)
+		self.pub = rospy.Publisher('controller_topic', Controller, queue_size=10)
 		self.msg_to_publish = Controller()
-		self.msg_to_publish.status = False
-		self.msg_to_publish.forward = 0
-		self.msg_to_publish.backward = 0
-		self.msg_to_publish.direction = 0
+		self.msg_to_publish.status = Joy.DISCONNECTED.value
+
+		self.forward = 0
+		self.backward = 0
+		self.direction = 0
+
 
 		self.connect = None
 		self.device_dir = device_dir
@@ -49,9 +52,8 @@ class controller():
 			if self.connect is None:
 				rospy.loginfo("There's no controller found. Please connect one!")
 				self.connect = False
-			#rospy.signal_shutdown('Quit')
 		else:
-			strings = ['xbox', 'gamepad', 'controller']
+			strings = ['xbox', 'gamepad', 'controller', 'x-box', 'joystick', 'joy']
 			for device in devices:
 				for string in strings:
 					search = re.compile(r"\b{0}\b".format(string), re.I)
@@ -61,16 +63,16 @@ class controller():
 						break
 			self.connect = True
 			rospy.loginfo("Connected controller: " + self.gamepad.name)
-			self.msg_to_publish.status = True
+			self.msg_to_publish.status = Joy.CONNECTED.value
 			self.send_messege()
 
 	def send_messege(self):
 		try:
 			self.msg_to_publish.forward = self.forward
-			self.msg_to_publish.backward = self.backwards
+			self.msg_to_publish.backward = self.backward
 			self.msg_to_publish.direction = self.direction
 		except:
-			a=1
+			rospy.loginfo("Unable to send message!")
 		self.pub.publish(self.msg_to_publish)
 
 	def find_controller_codes(self):
@@ -78,6 +80,7 @@ class controller():
 		buttons = all[ecodes.EV_KEY]
 		abs = dict(all[ecodes.EV_ABS])
 		#print (self.gamepad.capabilities(verbose=True))
+
 		if ecodes.BTN_A in buttons:
 			self.btnA = ecodes.BTN_A
 		if ecodes.BTN_B in buttons:
@@ -132,41 +135,49 @@ class controller():
 
 	def button_event(self, event):
 		if event.code == self.btnSELECT:
-			os.system("rosnode list | grep -v rosout | xargs rosnode kill")  #wyslij do glownego programu info raczej
+			rospy.loginfo("Ending.........")
+			rospy.signal_shutdown('Quit')
 
 	def axis_event(self,event):
 		if event.code == self.R2.code:
-			self.forward = int((event.value - self.R2.vmin)/(self.R2.vmax-self.R2.vmin)*100)
-			rospy.loginfo("forward velocity: {0}%".format(self.forward))
+			self.forward = int((event.value - self.R2.vmin)/(self.R2.vmax-self.R2.vmin)*255)
+			#rospy.loginfo("forward velocity: {0}%".format(self.forward))
 		elif event.code == self.L2.code:
-			self.backwards = int((event.value - self.L2.vmin)/(self.L2.vmax-self.L2.vmin)*100)
-			rospy.loginfo("backward velocity: {0}%".format(self.backwards))
+			self.backward = int((event.value - self.L2.vmin)/(self.L2.vmax-self.L2.vmin)*255)
+			#rospy.loginfo("backward velocity: {0}%".format(self.backward))
 		elif event.code == self.LX.code:
 			if event.value < 0:
 				val = event.value/self.LX.vmin
 				if val < self.deadzone:
 					val = 0
-				self.direction = -int(val*100)
-				rospy.loginfo("Turning right - {0}".format(self.direction))
+				self.direction = -int(val*1000)
+				#rospy.loginfo("Turning right - {0}".format(self.direction))
 			else:
 				val = event.value / self.LX.vmax
 				if val < self.deadzone:
 					val = 0
-				self.direction = int(val * 100)
-				rospy.loginfo("Turning left - {0}".format(self.direction))
+				self.direction = int(val * 1000)
+				#rospy.loginfo("Turning left - {0}".format(self.direction))
 
 		self.send_messege()
 
 	def run(self):
-		rate = rospy.Rate(30)
+		rate = rospy.Rate(10)
 		while not rospy.is_shutdown():
-			while not self.connect:
-				self.detect_controller()
+			try:
+				while not self.connect:
+					self.detect_controller()
+					self.send_messege()
+					rate.sleep()
+			except KeyboardInterrupt:
+				self.msg_to_publish.status = Joy.NOT_WORKING.value
 				self.send_messege()
-				rate.sleep()
+				rospy.loginfo("Ending.........")
+				rospy.signal_shutdown('Quit')
+				continue
 
 			self.find_controller_codes()
-			self.backwards = 0
+			self.backward = 0
 			self.forward = 0
 			self.direction = 0
 			self.deadzone = 0.1
@@ -181,11 +192,18 @@ class controller():
 						self.button_event(event)
 						#rospy.loginfo(categorize(event))
 						#self.send_messege()
-					if rospy.is_shutdown():
-						break
+			except KeyboardInterrupt:
+				self.msg_to_publish.status = Joy.NOT_WORKING.value
+				self.send_messege()
+				rospy.loginfo("Ending.......")
+				rospy.signal_shutdown('Quit')
+				continue
 			except:
+				self.msg_to_publish.status = Joy.DISCONNECTED.value
+				self.send_messege()
 				rospy.loginfo("Controller is disconnected")
-				os.system("rosnode list | grep -v rosout | xargs rosnode kill")
+				self.connect = False
+				continue
 
 			rate.sleep()
 

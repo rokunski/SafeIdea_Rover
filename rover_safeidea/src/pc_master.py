@@ -10,9 +10,9 @@ class master():
 
         rospy.init_node('pc_master')
 
-        topic_name = rospy.get_param('controller_topic')
+        #topic_name = rospy.get_param('controller_topic')
 
-        self.sub_controller = rospy.Subscriber(topic_name, Controller, self.controller_receive)
+        self.sub_controller = rospy.Subscriber("controller_topic", Controller, self.controller_receive)
 
     def controller_receive(self, message):
         rospy.loginfo("otrzymane dane: {0}".format(message.forward))
