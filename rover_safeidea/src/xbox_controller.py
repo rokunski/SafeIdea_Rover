@@ -33,7 +33,7 @@ class controller():
 		self.backward = 0
 		self.direction = 0
 
-
+		rospy.sleep(1)
 		self.connect = None
 		self.device_dir = device_dir
 		self.detect_controller()
@@ -52,6 +52,7 @@ class controller():
 			if self.connect is None:
 				rospy.loginfo("There's no controller found. Please connect one!")
 				self.connect = False
+				self.send_messege()
 		else:
 			strings = ['xbox', 'gamepad', 'controller', 'x-box', 'joystick', 'joy']
 			for device in devices:
@@ -164,11 +165,12 @@ class controller():
 
 	def run(self):
 		rate = rospy.Rate(10)
+
 		while not rospy.is_shutdown():
 			try:
 				while not self.connect:
 					self.detect_controller()
-					self.send_messege()
+					#self.send_messege()
 					rate.sleep()
 			except KeyboardInterrupt:
 				self.msg_to_publish.status = Joy.NOT_WORKING.value

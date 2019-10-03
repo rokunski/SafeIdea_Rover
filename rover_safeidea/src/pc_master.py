@@ -1,7 +1,10 @@
 #! /usr/bin/env python3
 
 import rospy
+import os
+import subprocess
 from rover_msg.msg import Controller, Keyboard
+from enumerate import Joy
 
 class master():
 
@@ -13,13 +16,30 @@ class master():
 
         self.sub_controller = rospy.Subscriber("controller_topic", Controller, self.controller_receive)
         self.sub_keyboard = rospy.Subscriber('keyboard_topic', Keyboard, self.keyboard_receive)
+        self.pub_rasp = rospy.Publisher('pc_to_rasp', Controller, self.send_to_rasp, queue_size=10)
+        rospy.sleep(1)
+
+        self.msg_to_publish = Controller()
+
+        self.controller = Joy.NOT_WORKING
+
+    def send_to_rasp(self):
+        self.pub_rasp.publish(self.msg_to_publish)
 
     def controller_receive(self, message):
-        rospy.loginfo("otrzymane dane: {0}".format(message.forward))
+        self.controller = Joy(message.status)
+        rospy.loginfo(self.controller.name)
 
     def keyboard_receive(self, message):
-        rospy.loginfo('Klawiatura')
-
+        if message.key == ord('x'):
+            if self.controller == Joy.NOT_WORKING:
+                try:
+                    os.system("mate-terminal -e 'bash -c \"rosrun rover_safeidea xbox_controller.py; exec bash\"'")
+                except:
+                    try:
+                        os.system("gnome-terminal -e 'bash -c \"rosrun rover_safeidea xbox_controller.py; exec bash\"'")
+                    except:
+                        os.system("xterm -e 'bash -c \"rosrun rover_safeidea xbox_controller.py; exec bash\"'")
 
     def run(self):
         rate = rospy.Rate(30)
