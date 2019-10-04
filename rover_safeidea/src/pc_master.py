@@ -34,10 +34,10 @@ class master():
         if message.key == ord('x'):
             if self.controller == Joy.NOT_WORKING:
                 try:
-                    os.system("mate-terminal -e 'bash -c \"rosrun rover_safeidea xbox_controller.py; exec bash\"'")
+                    os.system("gnome-terminal -e 'bash -c \"rosrun rover_safeidea xbox_controller.py; exec bash\"'")
                 except:
                     try:
-                        os.system("gnome-terminal -e 'bash -c \"rosrun rover_safeidea xbox_controller.py; exec bash\"'")
+                        os.system("mate-terminal -e 'bash -c \"rosrun rover_safeidea xbox_controller.py; exec bash\"'")
                     except:
                         os.system("xterm -e 'bash -c \"rosrun rover_safeidea xbox_controller.py; exec bash\"'")
 
