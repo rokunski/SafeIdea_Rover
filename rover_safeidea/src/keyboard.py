@@ -20,6 +20,7 @@ class keyboard():
         self.direction = 0
         self.pressed = []
         rospy.sleep(1)
+        rospy.loginfo(rospy.get_name())
 
     def send_messege(self):
         self.msg_to_publish.forward = self.forward
@@ -36,21 +37,38 @@ class keyboard():
             #print('{0} pressed'.format(key.name))
 
         new = False
+        rospy.loginfo(k)
 
-        if k == 'x' and 'x' not in self.pressed:
-            new = True
-        elif k == 'w' and 'w' not in self.pressed:
-            new = True
-            self.forward += 10
-        elif k == 's' and 's' not in self.pressed:
-            new = True
-            self.backward += 10
-        elif k == 'd' and 'd' not in self.pressed:
-            new = True
-            self.direction += 10
-        elif k == 'a' and 'a' not in self.pressed:
-            new = True
-            self.direction -= 10
+        if k not in self.pressed:
+            if k == 'x':
+                new = True
+
+            elif k == 'w':
+                new = True
+                self.forward = (self.forward + 10) % 250
+
+            elif k == 's':
+                new = True
+                self.backward = (self.backward + 10) % 250
+
+            elif k == 'd':
+                new = True
+                self.direction = (self.direction + 10) % 1000
+
+            elif k == 'a':
+                new = True
+                self.direction = (self.direction - 10) % 1000
+
+            elif k == 'r':
+                new = True
+                self.direction = 0
+                self.backward = 0
+                self.forward = 0
+
+            elif k == '1' or k == '2' or k == '3' or k == '4' or k == '5' or k == '6' or  k == '7' or k == '8' or k == '9' or k == '0':
+                new = True
+                self.forward = int(k)*25
+
 
         if new:
             self.pressed.append(k)
