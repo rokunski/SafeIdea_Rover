@@ -7,10 +7,13 @@ from rover_msg.msg import Controller, Keyboard, Master_Motor
 
 
 class MotorClass:
-    def __init__(self, num):
-        rospy.init_node('motor_node{0}'.format(num))
+    def __init__(self):
+        rospy.init_node('motor_node')
+        num = rospy.get_param("~number")
+
         rospy.loginfo("Setting up the Motor node number {0}...".format(num))
         topic_name = "rasp_motor_topic/{0}".format(num)
+
         self.sub_rasp = rospy.Subscriber(topic_name, Master_Motor, self.rasp_receive)
         self.msg_to_PWM = Master_Motor()
 
@@ -21,12 +24,10 @@ class MotorClass:
     def run(self):
         rate = rospy.Rate(30)
         while not rospy.is_shutdown():
-            print(self.msg_to_PWM)
+            #print(self.msg_to_PWM)
             rate.sleep()
 
 
 if __name__ == "__main__":
-    print("Which one motor you want to test?")
-    num = input()
-    motos = MotorClass(num)
+    motos = MotorClass()
     motos.run()
