@@ -6,7 +6,8 @@ import subprocess
 from rover_msg.msg import Controller, Keyboard
 from enumerate import Joy
 
-class master():
+
+class Master:
 
     def __init__(self):
         rospy.init_node('pc_master')
@@ -24,7 +25,6 @@ class master():
         self.msg_to_publish.forward = 0
         self.msg_to_publish.backward = 0
         self.msg_to_publish.direction = 0
-
 
         self.controller = Joy.NOT_WORKING
 
@@ -52,6 +52,11 @@ class master():
                         good = os.system("xterm -e 'bash -c \"rosrun rover_safeidea xbox_controller.py; exec bash\"'")
                         if good != 0:
                             rospy.loginfo("Cannot run Controller node")
+        elif message.key == ord('w') or message.key == ord('s') or message.key == ord('d') or message.key == ord('a') or message.key == ord('r'):
+            self.msg_to_publish.key = message.key
+            self.msg_to_publish.forward = message.forward
+            self.msg_to_publish.backward = message.backward
+            self.msg_to_publish.direction = message.direction
 
     def run(self):
         rate = rospy.Rate(30)
@@ -59,6 +64,7 @@ class master():
             self.send_to_rasp()
             rate.sleep()
 
+
 if __name__ == "__main__":
-    mst = master()
+    mst = Master()
     mst.run()

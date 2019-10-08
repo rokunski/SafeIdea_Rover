@@ -51,6 +51,7 @@ DIRECTORY msg
    FILES
    Controller.msg
    Keyboard.msg
+   Master_Motor.msg
 #   Message2.msg
 )
 

@@ -5,9 +5,7 @@ from rover_msg.msg import Keyboard
 from pynput.keyboard import Key, Listener
 
 
-
-class keyboard():
-
+class KeyboardClass:
     def __init__(self):
 
         rospy.init_node("keyboard", disable_signals=True)
@@ -22,7 +20,7 @@ class keyboard():
         rospy.sleep(1)
         rospy.loginfo(rospy.get_name())
 
-    def send_messege(self):
+    def send_message(self):
         self.msg_to_publish.forward = self.forward
         self.msg_to_publish.backward = self.backward
         self.msg_to_publish.direction = self.direction
@@ -69,12 +67,10 @@ class keyboard():
                 new = True
                 self.forward = int(k)*25
 
-
         if new:
             self.pressed.append(k)
             self.msg_to_publish.key = ord(k)
-            self.send_messege()
-
+            self.send_message()
 
     def on_released(self,key):
         try:
@@ -86,7 +82,6 @@ class keyboard():
 
         if k in self.pressed:
             self.pressed.remove(k)
-
 
     def run(self):
         rate = rospy.Rate(30)
@@ -102,5 +97,5 @@ class keyboard():
 
 
 if __name__ == "__main__":
-    k = keyboard()
+    k = KeyboardClass()
     k.run()
