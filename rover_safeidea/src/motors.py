@@ -3,7 +3,7 @@
 import rospy
 import os
 import time
-from rover_msg.msg import Controller, Keyboard, Master_Motor
+from rover_msg.msg import Master_Motor
 
 
 class MotorClass:
