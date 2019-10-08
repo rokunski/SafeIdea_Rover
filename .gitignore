@@ -6,5 +6,6 @@
 #pomiń jakieś pliki EAGLE'a
 *.s#?
 *.b#?
+*.epf
 
 node_modules
