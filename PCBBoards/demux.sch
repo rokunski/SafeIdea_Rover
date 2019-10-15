@@ -6116,8 +6116,8 @@ Siemens, Hewlett-Packard, Texas Instuments, Sharp, Motorola&lt;p&gt;
 <instance part="GND21" gate="1" x="322.58" y="-45.72" smashed="yes">
 <attribute name="VALUE" x="320.04" y="-48.26" size="1.778" layer="96"/>
 </instance>
-<instance part="+3V1" gate="G$1" x="388.62" y="165.1" smashed="yes" rot="R270">
-<attribute name="VALUE" x="383.54" y="167.64" size="1.778" layer="96"/>
+<instance part="+3V1" gate="G$1" x="386.08" y="165.1" smashed="yes" rot="R270">
+<attribute name="VALUE" x="381" y="167.64" size="1.778" layer="96"/>
 </instance>
 <instance part="+3V2" gate="G$1" x="386.08" y="124.46" smashed="yes" rot="R270">
 <attribute name="VALUE" x="381" y="127" size="1.778" layer="96"/>
@@ -7433,6 +7433,11 @@ Siemens, Hewlett-Packard, Texas Instuments, Sharp, Motorola&lt;p&gt;
 <wire x1="401.32" y1="165.1" x2="396.24" y2="165.1" width="0.1524" layer="91"/>
 <label x="396.24" y="165.1" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="R20" gate="G$1" pin="2"/>
+<pinref part="+3V1" gate="G$1" pin="+3V3"/>
+<wire x1="383.54" y1="165.1" x2="375.92" y2="165.1" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="N$65" class="0">
 <segment>
@@ -7746,13 +7751,6 @@ Siemens, Hewlett-Packard, Texas Instuments, Sharp, Motorola&lt;p&gt;
 <pinref part="X12" gate="-3" pin="KL"/>
 <wire x1="266.7" y1="15.24" x2="274.32" y2="15.24" width="0.1524" layer="91"/>
 <label x="269.24" y="15.24" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="+3V31" class="0">
-<segment>
-<pinref part="R20" gate="G$1" pin="2"/>
-<pinref part="+3V1" gate="G$1" pin="+3V3"/>
-<wire x1="386.08" y1="165.1" x2="375.92" y2="165.1" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$72" class="0">
