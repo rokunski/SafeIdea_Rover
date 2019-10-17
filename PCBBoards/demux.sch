@@ -9523,9 +9523,9 @@ Siemens, Hewlett-Packard, Texas Instuments, Sharp, Motorola&lt;p&gt;
 <attribute name="VALUE" x="408.94" y="120.523" size="1.778" layer="96" rot="R180"/>
 <attribute name="NAME" x="406.4" y="115.951" size="1.778" layer="95"/>
 </instance>
-<instance part="C1" gate="G$1" x="220.98" y="233.68" smashed="yes">
-<attribute name="NAME" x="222.504" y="234.061" size="1.778" layer="95"/>
-<attribute name="VALUE" x="222.504" y="228.981" size="1.778" layer="96"/>
+<instance part="C1" gate="G$1" x="213.36" y="233.68" smashed="yes">
+<attribute name="NAME" x="214.884" y="234.061" size="1.778" layer="95"/>
+<attribute name="VALUE" x="214.884" y="228.981" size="1.778" layer="96"/>
 </instance>
 <instance part="C2" gate="G$1" x="185.42" y="233.68" smashed="yes">
 <attribute name="NAME" x="186.944" y="234.061" size="1.778" layer="95"/>
@@ -10576,8 +10576,8 @@ Siemens, Hewlett-Packard, Texas Instuments, Sharp, Motorola&lt;p&gt;
 <pinref part="P+6" gate="1" pin="+5V"/>
 <pinref part="C1" gate="G$1" pin="1"/>
 <wire x1="203.2" y1="243.84" x2="203.2" y2="246.38" width="0.1524" layer="91"/>
-<wire x1="203.2" y1="243.84" x2="220.98" y2="243.84" width="0.1524" layer="91"/>
-<wire x1="220.98" y1="243.84" x2="220.98" y2="236.22" width="0.1524" layer="91"/>
+<wire x1="203.2" y1="243.84" x2="213.36" y2="243.84" width="0.1524" layer="91"/>
+<wire x1="213.36" y1="243.84" x2="213.36" y2="236.22" width="0.1524" layer="91"/>
 <junction x="203.2" y="243.84"/>
 </segment>
 <segment>
@@ -10653,8 +10653,8 @@ Siemens, Hewlett-Packard, Texas Instuments, Sharp, Motorola&lt;p&gt;
 <pinref part="GND1" gate="1" pin="GND"/>
 <pinref part="C1" gate="G$1" pin="2"/>
 <wire x1="203.2" y1="220.98" x2="203.2" y2="218.44" width="0.1524" layer="91"/>
-<wire x1="220.98" y1="228.6" x2="220.98" y2="220.98" width="0.1524" layer="91"/>
-<wire x1="220.98" y1="220.98" x2="203.2" y2="220.98" width="0.1524" layer="91"/>
+<wire x1="213.36" y1="228.6" x2="213.36" y2="220.98" width="0.1524" layer="91"/>
+<wire x1="213.36" y1="220.98" x2="203.2" y2="220.98" width="0.1524" layer="91"/>
 <junction x="203.2" y="220.98"/>
 </segment>
 <segment>
