@@ -2,26 +2,24 @@ EAGLE AutoRouter Statistics:
 
 Job           : C:/Users/MaFF/Desktop/Ase/SafeIdea_Rover/PCBBoards/demux.brd
 
-Start at      : 09:34:19 (10.10.2019)
-End at        : 09:34:37 (10.10.2019)
-Elapsed time  : 00:00:17
+Start at      : 00:28:46 (21.10.2019)
+End at        : 00:28:53 (21.10.2019)
+Elapsed time  : 00:00:02
 
-Signals       :   120   RoutingGrid: 6 mil  Layers: 2
-Connections   :   192   predefined:  0 ( 0 Vias )
+Signals       :   133   RoutingGrid: 25 mil  Layers: 2
+Connections   :   223   predefined:  35 ( 0 Vias )
 
-Router memory :   17479800
+Router memory :   243576
 
-Job has been interrupted!
+Passname          :    Busses     Route Optimize1 Optimize2 Optimize3 Optimize4
 
-Passname          : TopRouter     Route
+Time per pass     :  00:00:00  00:00:01  00:00:00  00:00:00  00:00:01  00:00:00
+Number of Ripups  :         0         0         0         0         0         0
+max. Level        :         0         0         0         0         0         0
+max. Total        :         0         0         0         0         0         0
 
-Time per pass     :  00:00:12  00:00:05
-Number of Ripups  :         0         0
-max. Level        :         0         0
-max. Total        :         0         0
+Routed            :       104       188       188       188       188       188
+Vias              :         0        64        17        10         8         8
+Resolution        :    62.3 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %
 
-Routed            :        70       107
-Vias              :         0         0
-Resolution        :    36.5 %    55.7 %
-
-Final             : 55.7% finished
+Final             : 100.0% finished
