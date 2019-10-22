@@ -19,7 +19,7 @@
             "outputs": [
                 {
                     "advanced_options": {
-                        "mirror": false,
+                        "mirror": true,
                         "offset_x": 0,
                         "offset_y": 0,
                         "rotate": false,
@@ -44,7 +44,7 @@
                 },
                 {
                     "advanced_options": {
-                        "mirror": false,
+                        "mirror": true,
                         "offset_x": 0,
                         "offset_y": 0,
                         "rotate": false,
@@ -69,7 +69,7 @@
                 },
                 {
                     "advanced_options": {
-                        "mirror": false,
+                        "mirror": true,
                         "offset_x": 0,
                         "offset_y": 0,
                         "rotate": false,
@@ -89,7 +89,7 @@
                 },
                 {
                     "advanced_options": {
-                        "mirror": false,
+                        "mirror": true,
                         "offset_x": 0,
                         "offset_y": 0,
                         "rotate": false,
@@ -111,7 +111,7 @@
                 },
                 {
                     "advanced_options": {
-                        "mirror": false,
+                        "mirror": true,
                         "offset_x": 0,
                         "offset_y": 0,
                         "rotate": false,
@@ -133,7 +133,7 @@
                 },
                 {
                     "advanced_options": {
-                        "mirror": false,
+                        "mirror": true,
                         "offset_x": 0,
                         "offset_y": 0,
                         "rotate": false,
@@ -155,7 +155,7 @@
                 },
                 {
                     "advanced_options": {
-                        "mirror": false,
+                        "mirror": true,
                         "offset_x": 0,
                         "offset_y": 0,
                         "rotate": false,
@@ -177,7 +177,7 @@
                 },
                 {
                     "advanced_options": {
-                        "mirror": false,
+                        "mirror": true,
                         "offset_x": 0,
                         "offset_y": 0,
                         "rotate": false,
@@ -201,7 +201,7 @@
                 },
                 {
                     "advanced_options": {
-                        "mirror": false,
+                        "mirror": true,
                         "offset_x": 0,
                         "offset_y": 0,
                         "rotate": false,
@@ -236,7 +236,7 @@
             "outputs": [
                 {
                     "advanced_options": {
-                        "mirror": false,
+                        "mirror": true,
                         "offset_x": 0,
                         "offset_y": 0,
                         "rotate": false,
@@ -271,6 +271,6 @@
     ],
     "timestamp": "2019-04-12T17:58:02",
     "type": "EAGLE CAM job",
-    "units": "imperial",
+    "units": "metric",
     "version": "9.2.0"
 }

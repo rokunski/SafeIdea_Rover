@@ -7,5 +7,6 @@
 *.s#?
 *.b#?
 *.epf
+*/CAMOutputs/*
 
 node_modules
