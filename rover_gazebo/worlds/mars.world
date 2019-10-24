@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <world name="default">
+    <include>
+      <uri>model://heightmap</uri>
+    </include>
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <plugin name="rover_gazebo" filename="librover_gazebo.so" />
+  </world>
+</sdf>
