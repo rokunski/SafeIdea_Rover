@@ -1,0 +1,255 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+
+<model name="rover">
+	<pose>0 0 0.2 0 0 0</pose>
+	<static>false</static>
+    <link name="chasis">
+        <pose>0 0 0 0 0 0</pose>
+        <collision name="collision">
+            <geometry>
+                <mesh>
+					<uri>model://rover/3dmodels/platforma_nieruchome.dae</uri>
+				</mesh>
+            </geometry>
+        </collision>
+        <visual name="visual">
+            <geometry>
+                <mesh>
+					<uri>model://rover/3dmodels/platforma_nieruchome.dae</uri>
+				</mesh>
+            </geometry>
+        </visual>
+    </link>
+
+		<link name="left_steer">
+				<pose>0 0 0 0 0 0</pose>
+				<collision name="collision">
+					<geometry>
+					 <mesh>
+				<uri>model://rover/3dmodels/platforma_lewe_dwa.dae</uri>
+			</mesh>
+					</geometry>
+				</collision>
+				<visual name="visual">
+					<geometry>
+						<mesh>
+				<uri>model://rover/3dmodels/platforma_lewe_dwa.dae</uri>
+			</mesh>
+					</geometry>
+				</visual>
+		</link>
+
+		<joint type="revolute" name="left_steer_hinge">
+				<pose>0.325254 -0.304042 0.18389 0 0 0</pose>
+				<child>left_steer</child>
+				<parent>chasis</parent>
+				<axis>
+					<limit>
+          <lower>-1</lower>
+          <upper>1</upper>
+        </limit>
+					<xyz>0 -1 0</xyz>
+				</axis>
+		</joint>
+
+		<link name="right_steer">
+				<pose>0 0 0 0 0 0</pose>
+				<collision name="collision">
+					<geometry>
+					 <mesh>
+				<uri>model://rover/3dmodels/platforma_prawe_dwa.dae</uri>
+			</mesh>
+					</geometry>
+				</collision>
+				<visual name="visual">
+					<geometry>
+						<mesh>
+				<uri>model://rover/3dmodels/platforma_prawe_dwa.dae</uri>
+			</mesh>
+					</geometry>
+				</visual>
+		</link>
+
+		<joint type="revolute" name="right_steer_hinge">
+				<pose>0.325254 0.304042 0.18389 0 0 0</pose>
+				<child>right_steer</child>
+				<parent>chasis</parent>
+				<axis>
+					<limit>
+          <lower>-1</lower>
+          <upper>1</upper>
+        </limit>
+					<xyz>0 1 0</xyz>
+				</axis>
+		</joint>
+
+
+	 <link name="left_wheel_1">
+        <pose>0 0 0 0 0 0</pose>
+        <collision name="collision">
+          <geometry>
+           <mesh>
+				<uri>model://rover/3dmodels/platforma_kolo_lewe1.dae</uri>
+			</mesh>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <mesh>
+				<uri>model://rover/3dmodels/platforma_kolo_lewe1.dae</uri>
+			</mesh>
+          </geometry>
+        </visual>
+    </link>
+
+		<joint type="revolute" name="left_wheel_1_hinge">
+        <pose>-0.414929 -0.346 -0.04176 0 0 0</pose>
+        <child>left_wheel_1</child>
+        <parent>chasis</parent>
+        <axis>
+          <xyz>0 -1 0</xyz>
+        </axis>
+    </joint>
+
+		<link name="left_wheel_2">
+				 <pose>0 0 0 0 0 0</pose>
+				 <collision name="collision">
+					 <geometry>
+						<mesh>
+				 <uri>model://rover/3dmodels/platforma_kolo_lewe2.dae</uri>
+			 </mesh>
+					 </geometry>
+				 </collision>
+				 <visual name="visual">
+					 <geometry>
+						 <mesh>
+				 <uri>model://rover/3dmodels/platforma_kolo_lewe2.dae</uri>
+			 </mesh>
+					 </geometry>
+				 </visual>
+		 </link>
+
+		 <joint type="revolute" name="left_wheel_2_hinge">
+				 <pose>0.074204 -0.346 0.002938 0 0 0</pose>
+				 <child>left_wheel_2</child>
+				 <parent>left_steer</parent>
+				 <axis>
+					 <xyz>0 -1 0</xyz>
+				 </axis>
+		 </joint>
+
+		 <link name="left_wheel_3">
+					<pose>0 0 0 0 0 0</pose>
+					<collision name="collision">
+						<geometry>
+						 <mesh>
+				 <uri>model://rover/3dmodels/platforma_kolo_lewe3.dae</uri>
+			 </mesh>
+						</geometry>
+					</collision>
+					<visual name="visual">
+						<geometry>
+							<mesh>
+				 <uri>model://rover/3dmodels/platforma_kolo_lewe3.dae</uri>
+			 </mesh>
+						</geometry>
+					</visual>
+			</link>
+
+		 <joint type="revolute" name="left_wheel_3_hinge">
+					<pose>0.574169 -0.346 0.000093 0 0 0</pose>
+					<child>left_wheel_3</child>
+					<parent>left_steer</parent>
+					<axis>
+						<xyz>0 -1 0</xyz>
+					</axis>
+			</joint>
+
+			<link name="right_wheel_1">
+ 	        <pose>0 0 0 0 0 0</pose>
+ 	        <collision name="collision">
+ 	          <geometry>
+ 	           <mesh>
+ 					<uri>model://rover/3dmodels/platforma_kolo_prawe1.dae</uri>
+ 				</mesh>
+ 	          </geometry>
+ 	        </collision>
+ 	        <visual name="visual">
+ 	          <geometry>
+ 	            <mesh>
+ 					<uri>model://rover/3dmodels/platforma_kolo_prawe1.dae</uri>
+ 				</mesh>
+ 	          </geometry>
+ 	        </visual>
+ 	    </link>
+
+ 			<joint type="revolute" name="right_wheel_1_hinge">
+ 	        <pose>-0.414929 0.346 -0.04176  0 0 0</pose>
+ 	        <child>right_wheel_1</child>
+ 	        <parent>chasis</parent>
+ 	        <axis>
+ 	          <xyz>0 1 0</xyz>
+ 	        </axis>
+ 	    </joint>
+
+
+			<link name="right_wheel_2">
+					<pose>0 0 0 0 0 0</pose>
+					<collision name="collision">
+						<geometry>
+						 <mesh>
+					<uri>model://rover/3dmodels/platforma_kolo_prawe2.dae</uri>
+				</mesh>
+						</geometry>
+					</collision>
+					<visual name="visual">
+						<geometry>
+							<mesh>
+					<uri>model://rover/3dmodels/platforma_kolo_prawe2.dae</uri>
+				</mesh>
+						</geometry>
+					</visual>
+			</link>
+
+			<joint type="revolute" name="right_wheel_2_hinge">
+					<pose>0.074204 0.346 0.002938 0 0 0</pose>
+					<child>right_wheel_2</child>
+					<parent>right_steer</parent>
+					<axis>
+						<xyz>0 1 0</xyz>
+					</axis>
+			</joint>
+
+			<link name="right_wheel_3">
+ 	        <pose>0 0 0 0 0 0</pose>
+ 	        <collision name="collision">
+ 	          <geometry>
+ 	           <mesh>
+ 					<uri>model://rover/3dmodels/platforma_kolo_prawe3.dae</uri>
+ 				</mesh>
+ 	          </geometry>
+ 	        </collision>
+ 	        <visual name="visual">
+ 	          <geometry>
+ 	            <mesh>
+ 					<uri>model://rover/3dmodels/platforma_kolo_prawe3.dae</uri>
+ 				</mesh>
+ 	          </geometry>
+ 	        </visual>
+ 	    </link>
+
+ 			<joint type="revolute" name="right_wheel_3_hinge">
+ 	        <pose>0.574169 0.346 0.000093 0 0 0</pose>
+ 	        <child>right_wheel_3</child>
+ 	        <parent>right_steer</parent>
+ 	        <axis>
+ 	          <xyz>0 1 0</xyz>
+ 	        </axis>
+ 	    </joint>
+
+
+
+
+</model>
+</sdf>
