@@ -4,7 +4,7 @@
 <model name="rover">
 	<pose>0 0 0.2 0 0 0</pose>
 	<static>false</static>
-    <link name="chasis">
+    <link name="chassis">
         <pose>0 0 0 0 0 0</pose>
         <collision name="collision">
             <geometry>
@@ -21,6 +21,226 @@
             </geometry>
         </visual>
     </link>
+
+	<!--	<link name="camera_front">
+			<pose>-0.289962 0 0.41032 0 0 0</pose>
+			<collision name="collision">
+				<geometry>
+						<box>
+								<size>.04 .02 .01</size>
+							</box>
+						</geometry>
+			</collision>
+			<visual name="visual">
+					<geometry>
+						<box>
+								<size>.04 .02 .01</size>
+							</box>
+					</geometry>
+			</visual>
+			<sensor name="camerka" type="camera">
+				<pose>0 0 0 0 0 3.14159265</pose>
+				<plugin name="camera_plugin" filename="libgazebo_ros_camera.so">
+	 				<topicName>/camerka</topicName>
+	 				<frameName>/image</frameName>
+					<robotNamespace>/rover</robotNamespace>
+					<cameraName>camerka</cameraName>
+ 				</plugin>
+				<camera>
+				<image>
+					<width> 320</width>
+					<height> 200</height>
+					 <format>R8G8B8</format>
+				</image>
+				</camera>
+				<always_on>1</always_on>
+				<update_rate>20</update_rate>
+				<visualize>true</visualize>
+			</sensor>
+		</link>-->
+
+
+	<!--	<joint type="fixed" name="camera_front_joint">
+						<pose>0.0 -0.0 0.0 0 0 0</pose>
+						<child>camera_front</child>
+						<parent>chassis</parent>
+						<axis>
+							<xyz>0 0 0</xyz>
+						</axis>
+		</joint>-->
+
+		<link name="immmmm">
+			<pose>-0.0 0 0.41032 0 0 0</pose>
+			<collision name="collision">
+				<geometry>
+						<box>
+								<size>.04 .02 .01</size>
+							</box>
+						</geometry>
+			</collision>
+			<visual name="visual">
+					<geometry>
+						<box>
+								<size>.04 .02 .01</size>
+							</box>
+					</geometry>
+			</visual>
+			<sensor name="imuu" type="imu">
+				<pose>0 0 0 0 0 0</pose>
+				<plugin name="imu_plugin" filename="libgazebo_ros_imu_sensor.so">
+					<topicName>/imu</topicName>
+    			<frameName>/data</frameName>
+					<updateRateHZ>100.0</updateRateHZ>
+        	<gaussianNoise>0.0</gaussianNoise>
+        	<xyzOffset>0 0 0</xyzOffset>
+        	<rpyOffset>0 0 0</rpyOffset>
+				</plugin>
+
+			</sensor>
+		</link>
+
+
+		<joint type="fixed" name="immmmm_front_joint">
+						<pose>0.0 -0.0 0.0 0 0 0</pose>
+						<child>immmmm</child>
+						<parent>chassis</parent>
+						<axis>
+							<xyz>0 0 0</xyz>
+						</axis>
+		</joint>
+
+
+		<link name="lidar">
+			<pose>-0.0 0 0.42032 0 0 0</pose>
+			<collision name="collision">
+				<geometry>
+						<box>
+								<size>.04 .02 .01</size>
+							</box>
+						</geometry>
+			</collision>
+			<visual name="visual">
+					<geometry>
+						<box>
+								<size>.04 .02 .01</size>
+							</box>
+					</geometry>
+			</visual>
+			<sensor type="gpu_ray" name="head_hokuyo_sensor">
+	<pose>-0.0 0 0.005 0 0 0</pose>
+	<visualize>true</visualize>
+	<update_rate>40</update_rate>
+	<always_on>1</always_on>
+	<ray>
+		<scan>
+			<horizontal>
+				<samples>720</samples>
+				<resolution>1</resolution>
+				<min_angle>-1.570796</min_angle>
+				<max_angle>1.570796</max_angle>
+			</horizontal>
+		</scan>
+		<range>
+			<min>1.0</min>
+			<max>30.0</max>
+			<resolution>0.01</resolution>
+		</range>
+		<noise>
+			<type>gaussian</type>
+			<!-- Noise parameters based on published spec for Hokuyo laser
+					 achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
+					 stddev of 0.01m will put 99.7% of samples within 0.03m of the true
+					 reading. -->
+			<mean>0.0</mean>
+			<stddev>0.01</stddev>
+		</noise>
+	</ray>
+	<plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_gpu_laser.so">
+		<topicName>/rover/laser/scan</topicName>
+		<frameName>hokuyo_link</frameName>
+	</plugin>
+</sensor>
+		</link>
+
+
+		<joint type="fixed" name="lidar_joint">
+						<pose>0.0 -0.0 0.0 0 0 0</pose>
+						<child>lidar</child>
+						<parent>chassis</parent>
+						<axis>
+							<xyz>0 0 0</xyz>
+						</axis>
+		</joint>
+
+
+
+
+		<link name="depth_camera">
+			<pose>-0.289962 0 0.41032 0 0 0</pose>
+			<collision name="collision">
+				<geometry>
+						<box>
+								<size>.04 .02 .01</size>
+							</box>
+						</geometry>
+			</collision>
+			<visual name="visual">
+					<geometry>
+						<box>
+								<size>.04 .02 .01</size>
+							</box>
+					</geometry>
+			</visual>
+			<sensor name="d_cam" type="depth">
+				<pose>0 0 0 0 0 3.14159265</pose>
+				<plugin name="depth_controller" filename="libgazebo_ros_openni_kinect.so">
+       <baseline>0.2</baseline>
+       <alwaysOn>true</alwaysOn>
+       <updateRate>1.0</updateRate>
+       <cameraName>d_cam_ir</cameraName>
+       <imageTopicName>//depth/image_raw</imageTopicName>
+       <cameraInfoTopicName>/d_cam/depth/camera_info</cameraInfoTopicName>
+       <depthImageTopicName>/d_cam/depth/image_raw</depthImageTopicName>
+       <depthImageInfoTopicName>/d_cam/depth/camera_info</depthImageInfoTopicName>
+       <pointCloudTopicName>/d_cam/depth/points</pointCloudTopicName>
+       <frameName>image</frameName>
+       <pointCloudCutoff>0.5</pointCloudCutoff>
+       <pointCloudCutoffMax>3.0</pointCloudCutoffMax>
+       <distortionK1>0.00000001</distortionK1>
+       <distortionK2>0.00000001</distortionK2>
+       <distortionK3>0.00000001</distortionK3>
+       <distortionT1>0.00000001</distortionT1>
+       <distortionT2>0.00000001</distortionT2>
+       <CxPrime>0</CxPrime>
+       <Cx>0</Cx>
+       <Cy>0</Cy>
+       <focalLength>0</focalLength>
+       <hackBaseline>0</hackBaseline>
+     </plugin>
+				<camera>
+				<image>
+					<width> 320</width>
+					<height> 200</height>
+					<format>R8G8B8</format>
+				</image>
+				</camera>
+				<always_on>1</always_on>
+				<update_rate>20</update_rate>
+				<!--<visualize>true</visualize>-->
+			</sensor>
+		</link>
+
+
+		<joint type="fixed" name="d_camera_front_joint">
+						<pose>0.0 -0.0 0.0 0 0 0</pose>
+						<child>depth_camera</child>
+						<parent>chassis</parent>
+						<axis>
+							<xyz>0 0 0</xyz>
+						</axis>
+		</joint>
+
+
 
 		<link name="left_steer">
 				<pose>0 0 0 0 0 0</pose>
@@ -43,7 +263,7 @@
 		<joint type="revolute" name="left_steer_hinge">
 				<pose>0.325254 -0.304042 0.18389 0 0 0</pose>
 				<child>left_steer</child>
-				<parent>chasis</parent>
+				<parent>chassis</parent>
 				<axis>
 					<limit>
           <lower>-1</lower>
@@ -74,7 +294,7 @@
 		<joint type="revolute" name="right_steer_hinge">
 				<pose>0.325254 0.304042 0.18389 0 0 0</pose>
 				<child>right_steer</child>
-				<parent>chasis</parent>
+				<parent>chassis</parent>
 				<axis>
 					<limit>
           <lower>-1</lower>
@@ -106,7 +326,7 @@
 		<joint type="revolute" name="left_wheel_1_hinge">
         <pose>-0.414929 -0.346 -0.04176 0 0 0</pose>
         <child>left_wheel_1</child>
-        <parent>chasis</parent>
+        <parent>chassis</parent>
         <axis>
           <xyz>0 -1 0</xyz>
         </axis>
@@ -187,7 +407,7 @@
  			<joint type="revolute" name="right_wheel_1_hinge">
  	        <pose>-0.414929 0.346 -0.04176  0 0 0</pose>
  	        <child>right_wheel_1</child>
- 	        <parent>chasis</parent>
+ 	        <parent>chassis</parent>
  	        <axis>
  	          <xyz>0 1 0</xyz>
  	        </axis>

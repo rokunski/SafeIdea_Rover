@@ -4,7 +4,10 @@ import rospy
 import os
 import time
 from rover_msg.msg import Master_Motor
+import pigpio
 
+# TODO: uaktualnic liste uzywanymi pinami
+list_GPIO = [5, 6, 7, 8, 9, 10,]
 
 class MotorClass:
     def __init__(self):
@@ -14,6 +17,7 @@ class MotorClass:
         rospy.loginfo("Setting up the Motor node number {0}...".format(num))
         topic_name = "rasp_motor_topic/{0}".format(num)
 
+        self.GPIO = list_GPIO[num]
         self.sub_rasp = rospy.Subscriber(topic_name, Master_Motor, self.rasp_receive)
         self.msg_to_PWM = Master_Motor()
 

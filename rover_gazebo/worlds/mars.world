@@ -8,18 +8,16 @@
       <uri>model://rover</uri>
     </include>
 
-    <include>
+<!--    <include>
         <uri>model://ground_plane</uri>
-      </include>
+      </include>-->
 
-  <!--
+
 
     <include>
          <uri>model://heightmap</uri>
        </include>
 
-
-  -->
 
     <plugin name="rover_gazebo" filename="librover_gazebo.so" />
   </world>
