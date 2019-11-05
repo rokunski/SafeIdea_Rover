@@ -6,6 +6,10 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   roscpp
   gazebo_ros
+  controller_manager
+  joint_state_controller
+  robot_state_publisher
+  diff_drive_controller
 )
 
 find_package(gazebo REQUIRED)
@@ -21,4 +25,8 @@ catkin_package(
     roscpp
     rospy
     gazebo_ros
+    controller_manager
+    joint_state_controller
+    robot_state_publisher
+    diff_drive_controller
 )

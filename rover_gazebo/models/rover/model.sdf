@@ -127,9 +127,9 @@
 					</geometry>
 			</visual>
 			<sensor type="gpu_ray" name="head_hokuyo_sensor">
-	<pose>-0.0 0 0.005 0 0 0</pose>
-	<visualize>true</visualize>
-	<update_rate>40</update_rate>
+	<pose>-0.0 0 0 0 0 0</pose>
+	<visualize>false</visualize>
+	<update_rate>20</update_rate>
 	<always_on>1</always_on>
 	<ray>
 		<scan>
@@ -157,7 +157,7 @@
 	</ray>
 	<plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_gpu_laser.so">
 		<topicName>/rover/laser/scan</topicName>
-		<frameName>hokuyo_link</frameName>
+		<frameName>lidar</frameName>
 	</plugin>
 </sensor>
 		</link>
@@ -330,6 +330,7 @@
         <axis>
           <xyz>0 -1 0</xyz>
         </axis>
+
     </joint>
 
 		<link name="left_wheel_2">
