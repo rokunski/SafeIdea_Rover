@@ -52,6 +52,7 @@ DIRECTORY msg
    Controller.msg
    Keyboard.msg
    Master_Motor.msg
+   PC2Rasp.msg
 #   Message2.msg
 )
 

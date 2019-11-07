@@ -3,6 +3,7 @@
 import rospy
 from rover_msg.msg import Keyboard
 from pynput.keyboard import Key, Listener
+import math
 
 
 class KeyboardClass:
@@ -23,8 +24,9 @@ class KeyboardClass:
     def send_message(self):
         self.msg_to_publish.forward = self.forward
         self.msg_to_publish.backward = self.backward
-        self.msg_to_publish.direction = self.direction
+        self.msg_to_publish.direction = int(self.direction)
         self.pub.publish(self.msg_to_publish)
+
 
     def on_pressed(self, key):
         try:
@@ -38,24 +40,24 @@ class KeyboardClass:
         rospy.loginfo(k)
 
         if k not in self.pressed:
-            if k == 'x':
+            if k == 'x' or k == 'm':
                 new = True
 
             elif k == 'w':
                 new = True
-                self.forward = (self.forward + 10) % 250
+                self.forward = max([self.forward , (self.forward + 10) % 250])
 
             elif k == 's':
                 new = True
-                self.backward = (self.backward + 10) % 250
+                self.backward = max([self.backward, (self.backward + 10) % 250])
 
             elif k == 'd':
                 new = True
-                self.direction = (self.direction + 10) % 1000
+                self.direction = max([self.direction, math.fmod((self.direction + 10),1000)])
 
             elif k == 'a':
                 new = True
-                self.direction = (self.direction - 10) % 1000
+                self.direction = min([self.direction,math.fmod((self.direction - 10),1000)])
 
             elif k == 'r':
                 new = True
@@ -67,10 +69,14 @@ class KeyboardClass:
                 new = True
                 self.forward = int(k)*25
 
+
         if new:
             self.pressed.append(k)
             self.msg_to_publish.key = ord(k)
+
             self.send_message()
+
+
 
     def on_released(self,key):
         try:
