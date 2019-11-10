@@ -4,8 +4,8 @@
   <link name="chassis">
     <inertial>
       <origin xyz="0 0 0" />
-      <mass value="5.0" />
-      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="1.0"  iyz="0.0"  izz="1" />
+      <mass value="1.0" />
+      <inertia  ixx="0.1" ixy="0.0"  ixz="0.0"  iyy="0.1"  iyz="0.0"  izz="0.1" />
     </inertial>
     <visual>
       <origin xyz="0 0 0.2"/>
@@ -24,8 +24,8 @@
   <link name="imu_link">
     <inertial>
       <origin xyz="0 0 0" />
-      <mass value="0.1" />
-      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="1.0"  iyz="0.0"  izz="1" />
+      <mass value="1" />
+      <inertia  ixx="0.001" ixy="0.0"  ixz="0.0"  iyy="0.001"  iyz="0.0"  izz=".001" />
     </inertial>
     <visual>
       <origin xyz="0  0  0"/>
@@ -44,8 +44,8 @@
   <link name="camera_link">
     <inertial>
       <origin xyz="0 0 0" />
-      <mass value="0.1" />
-      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="1.0"  iyz="0.0"  izz="1" />
+      <mass value="1" />
+      <inertia  ixx="0.001" ixy="0.0"  ixz="0.0"  iyy="0.001"  iyz="0.0"  izz=".001" />
     </inertial>
     <visual>
       <origin xyz="0  0  0"/>
@@ -64,8 +64,8 @@
   <link name="lidar_link">
     <inertial>
       <origin xyz="0 0 0" />
-      <mass value="0.1" />
-      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="1.0"  iyz="0.0"  izz="1" />
+      <mass value="1" />
+      <inertia  ixx="0.001" ixy="0.0"  ixz="0.0"  iyy="0.001"  iyz="0.0"  izz=".001" />
     </inertial>
     <visual>
       <origin xyz="0  0  0"/>
@@ -87,9 +87,9 @@
 
   <link name="left_steer">
     <inertial>
-      <origin xyz="0 0 0" />
-      <mass value=".2" />
-      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="1.0"  iyz="0.0"  izz="1" />
+      <origin xyz="0 0 -0.1" />
+      <mass value="1" />
+      <inertia  ixx="0.005" ixy="0.0"  ixz="0.0"  iyy="0.005"  iyz="0.0"  izz=".005" />
     </inertial>
     <visual>
       <origin xyz="-0.32525  0.30404 -0.18389"/>
@@ -107,9 +107,9 @@
 
   <link name="right_steer">
     <inertial>
-      <origin xyz="0 0 0" />
-      <mass value=".2" />
-      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="1.0"  iyz="0.0"  izz="1" />
+      <origin xyz="0 0 -0.1" />
+      <mass value="1" />
+      <inertia  ixx=".005" ixy="0.0"  ixz="0.0"  iyy=".005"  iyz="0.0"  izz=".005" />
     </inertial>
     <visual>
       <origin xyz="-0.32525 -0.30404 -0.18389"/>
@@ -128,8 +128,8 @@
 
   <link name="left_wheel_1">
     <inertial>
-      <origin xyz="0 0 0" />
-      <mass value=".2" />
+      <origin xyz="0 -0.15 0" />
+      <mass value="1" />
       <inertia  ixx="0.0009" ixy="0.0"  ixz="0.0"  iyy="0.0009"  iyz="0.0"  izz="0.001" />
     </inertial>
     <visual>
@@ -149,8 +149,8 @@
 
   <link name="left_wheel_2">
     <inertial>
-      <origin xyz="0 0 0" />
-      <mass value=".2" />
+      <origin xyz="0 -0.15 0" />
+      <mass value="1" />
       <inertia  ixx="0.0009" ixy="0.0"  ixz="0.0"  iyy="0.0009"  iyz="0.0"  izz="0.001" />
     </inertial>
     <visual>
@@ -169,8 +169,8 @@
 
   <link name="left_wheel_3">
     <inertial>
-      <origin xyz="0 0 0" />
-      <mass value=".2" />
+      <origin xyz="0 -0.15 0" />
+      <mass value="1" />
       <inertia  ixx="0.0009" ixy="0.0"  ixz="0.0"  iyy="0.0009"  iyz="0.0"  izz="0.001" />
     </inertial>
     <visual>
@@ -189,8 +189,8 @@
 
   <link name="right_wheel_1">
     <inertial>
-      <origin xyz="0 0 0" />
-      <mass value=".2" />
+      <origin xyz="0 0.15 0" />
+      <mass value="1" />
       <inertia  ixx="0.0009" ixy="0.0"  ixz="0.0"  iyy="0.0009"  iyz="0.0"  izz="0.001" />
     </inertial>
     <visual>
@@ -210,8 +210,8 @@
 
   <link name="right_wheel_2">
     <inertial>
-      <origin xyz="0 0 0" />
-      <mass value=".2" />
+      <origin xyz="0 0.15 0" />
+      <mass value="1" />
       <inertia  ixx="0.0009" ixy="0.0"  ixz="0.0"  iyy="0.0009"  iyz="0.0"  izz="0.001" />
     </inertial>
     <visual>
@@ -230,8 +230,8 @@
 
   <link name="right_wheel_3">
     <inertial>
-      <origin xyz="0 0 0" />
-      <mass value=".2" />
+      <origin xyz="0 0.15 0" />
+      <mass value="1" />
       <inertia  ixx="0.0009" ixy="0.0"  ixz="0.0"  iyy="0.0009"  iyz="0.0"  izz="0.001" />
     </inertial>
     <visual>
@@ -275,7 +275,7 @@
 
 
 
-  <joint name="left_steer_hinge" type="continuous">
+  <joint name="left_steer_hinge" type="revolute">
     <parent link="chassis"/>
     <child link="left_steer"/>
     <origin rpy="0  0  0" xyz="0.32525 -0.30404  0.38389"/>
@@ -283,12 +283,12 @@
     <limit effort="0.0" lower="-0.5" upper="1.0" velocity="0.0"/>
   </joint>
 
-  <joint name="right_steer_hinge" type="continuous">
+  <joint name="right_steer_hinge" type="revolute">
     <parent link="chassis"/>
     <child link="right_steer"/>
     <origin rpy="0  0  0" xyz="0.32525  0.30404  0.38389"/>
     <axis xyz="0 1  0"/>
-    <limit effort="0.0" lower="-0.5" upper="1.0" velocity="0.0"/>
+    <limit effort="0.0" lower="-1." upper="0.5" velocity="0.0"/>
   </joint>
 
   <joint name="left_wheel_1_hinge" type="continuous">
@@ -296,7 +296,7 @@
     <child link="left_wheel_1"/>
     <origin rpy="0  0  0" xyz="-0.41492 -0.346    0.15824"/>
     <axis xyz="0 -1  0"/>
-    <limit effort="0" lower="-9999999999999" upper="9999999999999" velocity="0"/>
+    <limit effort="0" velocity="0"/>
   </joint>
 
   <joint name="left_wheel_2_hinge" type="continuous">
@@ -304,7 +304,7 @@
     <child link="left_wheel_2"/>
     <origin rpy="0  0  0" xyz="-0.25105 -0.04195 -0.18095"/>
     <axis xyz="0 -1  0"/>
-    <limit effort="0" lower="-9999999999999" upper="9999999999999" velocity="0"/>
+    <limit effort="0" velocity="0"/>
   </joint>
 
   <joint name="left_wheel_3_hinge" type="continuous">
@@ -312,7 +312,7 @@
     <child link="left_wheel_3"/>
     <origin rpy="0  0  0" xyz="0.24891 -0.04195 -0.18379"/>
     <axis xyz="0 1  0"/>
-    <limit effort="0" lower="-9999999999999" upper="9999999999999" velocity="0"/>
+    <limit effort="0"  velocity="0"/>
   </joint>
 
   <joint name="right_wheel_1_hinge" type="continuous">
@@ -320,7 +320,7 @@
     <child link="right_wheel_1"/>
     <origin rpy="0  0  0" xyz="-0.41492 0.346    0.15824"/>
     <axis xyz="0 1  0"/>
-    <limit effort="0" lower="-9999999999999" upper="9999999999999" velocity="0"/>
+    <limit effort="0"  velocity="0"/>
   </joint>
 
   <joint name="right_wheel_2_hinge" type="continuous">
@@ -328,7 +328,7 @@
     <child link="right_wheel_2"/>
     <origin rpy="0  0  0" xyz="-0.25105 0.04195 -0.18095"/>
     <axis xyz="0 1  0"/>
-    <limit effort="0" lower="-9999999999999" upper="9999999999999" velocity="0"/>
+    <limit effort="0" velocity="0"/>
   </joint>
 
   <joint name="right_wheel_3_hinge" type="continuous">
@@ -336,7 +336,7 @@
     <child link="right_wheel_3"/>
     <origin rpy="0  0  0" xyz="0.24891 0.04195 -0.18379"/>
     <axis xyz="0 1  0"/>
-    <limit effort="0" lower="-9999999999999" upper="9999999999999" velocity="0"/>
+    <limit effort="0" velocity="0"/>
   </joint>
 
 
@@ -583,6 +583,40 @@
         </joint>
       </transmission>
 -->
+<!--
+<gazebo>
+  <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
+    <commandTopic>cmd_vel</commandTopic>
+    <odometryTopic>odom</odometryTopic>
+    <odometryFrame>odom</odometryFrame>
+    <odometryRate>20.0</odometryRate>
+    <robotBaseFrame>chassis</robotBaseFrame>
+  </plugin>
+</gazebo>
+
+-->
+
+<!--
+<gazebo>
+  <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+    <alwaysOn>true</alwaysOn>
+    <robotNamespace>/rover</robotNamespace>
+    <legacyMode>false</legacyMode>
+    <updateRate>30</updateRate>
+    <leftJoint>left_wheel_1_hinge left_wheel_2_hinge left_wheel_3_hinge</leftJoint>
+    <rightJoint>right_wheel_1_hinge right_wheel_2_hinge right_wheel_3_hinge</rightJoint>
+    <wheelSeparation>0.692</wheelSeparation>
+    <wheelDiameter>0.2034</wheelDiameter>
+    <torque>20</torque>
+    <commandTopic>cmd_vel</commandTopic>
+    <odometryTopic>odom</odometryTopic>
+    <odometryFrame>odom</odometryFrame>
+    <robotBaseFrame>chassis</robotBaseFrame>
+  </plugin>
+</gazebo>
+
+-->
+
 
 <gazebo>
   <plugin name="skid_steer_drive_controller" filename="libgazebo_ros_skid_steer_drive.so">
@@ -600,5 +634,7 @@
     <broadcastTF>true</broadcastTF>
   </plugin>
 </gazebo>
+
+
 
 </robot>
