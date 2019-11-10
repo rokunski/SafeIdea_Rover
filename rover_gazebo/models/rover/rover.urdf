@@ -260,7 +260,7 @@
   <joint name="camera_joint" type="fixed">
     <parent link="chassis"/>
     <child link="camera_link"/>
-    <origin rpy="0  0  3.14159265" xyz="-0.28996  0       0.61032"/>
+    <origin rpy="0  0.0873  3.14159265" xyz="-0.28996  0       0.61032"/>
     <axis xyz="0 0  0"/>
     <limit effort="0.0" lower="0" upper="0" velocity="0.0"/>
   </joint>
@@ -268,7 +268,7 @@
   <joint name="lidar_joint" type="fixed">
     <parent link="chassis"/>
     <child link="lidar_link"/>
-    <origin rpy="0  0  0"  xyz="0       0       0.64032"/>
+    <origin rpy="0  0.1222  3.14159265"  xyz="-0.28996       0       0.63032"/>
     <axis xyz="0 0  0"/>
     <limit effort="0.0" lower="0" upper="0" velocity="0.0"/>
   </joint>
