@@ -6,9 +6,9 @@
     </include>
 <!--	<include>
       <uri>model://rover</uri>
-    </include>
+    </include>-->
 
-    <include>
+<!--    <include>
         <uri>model://ground_plane</uri>
       </include>
 -->

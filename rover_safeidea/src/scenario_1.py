@@ -16,17 +16,18 @@ class scenario:
         rospy.init_node("scenariusz", disable_signals=True)
         rospy.loginfo("Setting up First scenario node .....")
 
-        self.sub_image = rospy.Subscriber('/kamera/depth/image_raw/compressed', Image, self.image_receive)
+        self.sub_image = rospy.Subscriber('/kamera/depth/image_raw', Image, self.image_receive)
         self.brigde = CvBridge()
         rospy.sleep(1)
 
     def image_receive(self,message):
         image = message.data
         rospy.loginfo(message.encoding)
-        # try:
-        #     image = self.brigde.imgmsg_to_cv2(message, "bgr8")
-        # except CvBridgeError as e:
-        #     print(e)
+        if message.encoding == "rgb8":
+            try:
+                image = self.brigde.imgmsg_to_cv2(message, "rgb8")
+            except CvBridgeError as e:
+                print(e)
 
         #cv2.imshow("image", image)
         #cv2.waitKey(1)
