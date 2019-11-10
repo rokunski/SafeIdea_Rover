@@ -2,7 +2,7 @@
 
   <arg name="debug" default="false"/>
   <arg name="gui" default="true"/>
-  <arg name="pause" default="false"/>
+  <arg name="pause" default="true"/>
   <arg name="world" default="$(find rover_gazebo)/worlds/mars.world"/>
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -13,9 +13,14 @@
     <arg name="use_sim_time" value="true"/>
   </include>
 
-  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find rover_gazebo)/models/rover/rover.urdf'"/>
+<!--  <param name="robot_description" command="$(find xacro)/xacro inorder '$(find rover_gazebo)/models/rover/rover.urdf'"/>
 
   <node name="rover_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model rover" />
+--><param name="robot_description" command="$(find xacro)/xacro --inorder '$(find rover_gazebo)/models/rover/rover2.urdf'"/>
+
+  <node name="rover_spawn2" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model rover2" />
+
+
 <!--
   <rosparam file="$(find rover_gazebo)/config/config.yaml" command="load" />
 

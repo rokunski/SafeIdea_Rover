@@ -8,6 +8,9 @@ import rospy
 import time
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
+import numpy as np
+
+
 
 class scenario:
 
@@ -15,9 +18,9 @@ class scenario:
 
         rospy.init_node("scenariusz", disable_signals=True)
         rospy.loginfo("Setting up First scenario node .....")
-
+        print(cv2.__version__)
         self.sub_image = rospy.Subscriber('/kamera/depth/image_raw', Image, self.image_receive)
-        self.brigde = CvBridge()
+        self.bridge = CvBridge()
         rospy.sleep(1)
 
     def image_receive(self,message):
@@ -25,19 +28,25 @@ class scenario:
         rospy.loginfo(message.encoding)
         if message.encoding == "rgb8":
             try:
-                image = self.brigde.imgmsg_to_cv2(message, "rgb8")
+                image = self.bridge.imgmsg_to_cv2(message, "rgb8")
             except CvBridgeError as e:
                 print(e)
+        print(type(image))
 
-        #cv2.imshow("image", image)
-        #cv2.waitKey(1)
+        # cv2.imshow("image", np.asarray(image,dtype=np.uint8))
+        # cv2.waitKey(1)
+
+
+
 
     def run(self):
+
         rate = rospy.Rate(30)
         while not rospy.is_shutdown():
             try:
                 rate.sleep()
             except KeyboardInterrupt:
+                cv2.destroyAllWindows()
                 rospy.loginfo("Ending.........")
                 rospy.signal_shutdown('Quit')
 

@@ -52,6 +52,9 @@
   <build_depend>rospy</build_depend>
   <build_export_depend>rospy</build_export_depend>
   <exec_depend>rospy</exec_depend>
+<build_depend>cv_bridge</build_depend>
+  <build_export_depend>cv_bridge</build_export_depend>
+  <exec_depend>cv_bridge</exec_depend>
 <!--<build_depend>rover_msg</build_depend>
 <exec_depend>rover_msg</exec_depend>-->
 <depend>rover_msg</depend>

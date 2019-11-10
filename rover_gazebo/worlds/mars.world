@@ -2,17 +2,17 @@
 <sdf version="1.5">
   <world name="default">
   <include>
-      <uri>model://sun</uri>
+     <uri>model://sun</uri>
     </include>
-<!--	<include>
+	<!--<include>
       <uri>model://rover</uri>
-    </include>-->
+    </include>
 
-<!--    <include>
+    <include>
         <uri>model://ground_plane</uri>
-      </include>
--->
+    </include>
 
+-->
 
     <include>
          <uri>model://heightmap</uri>

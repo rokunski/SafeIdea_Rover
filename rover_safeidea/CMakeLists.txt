@@ -10,6 +10,7 @@ project(rover_safeidea)
 find_package(catkin REQUIRED COMPONENTS
   rospy
 	rover_msg
+cv_bridge
 )
 
 ## System dependencies are found with CMake's conventions
