@@ -556,8 +556,8 @@
           <alwaysOn>true</alwaysOn>
           <updateRate>1.0</updateRate>
           <cameraName>kamera_ir</cameraName>
-          <imageTopicName>/kamera/depth/image_raw</imageTopicName>
-          <cameraInfoTopicName>/kamera/depth/camera_info</cameraInfoTopicName>
+          <imageTopicName>/kamera/depth/image_raw2</imageTopicName>
+          <cameraInfoTopicName>/kamera/depth/camera_info2</cameraInfoTopicName>
           <depthImageTopicName>/kamera/depth/image_raw</depthImageTopicName>
           <depthImageInfoTopicName>/kamera/depth/camera_info</depthImageInfoTopicName>
           <pointCloudTopicName>/kamera/depth/points</pointCloudTopicName>

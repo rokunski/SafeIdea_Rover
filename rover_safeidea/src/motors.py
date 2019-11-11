@@ -25,6 +25,9 @@ class MotorClass:
         topic_name = "rasp_motor_topic/{0}".format(self.num)
 
         self.GPIO_PWM = list_GPIO_PWM[self.num]
+        self.RS_num = 2 * self.num
+        self.FR_num = 2 * self.num + 1
+
         self.sub_rasp = rospy.Subscriber(topic_name, Master_Motor, self.rasp_receive)
         self.msg_to_PWM = Master_Motor()
 
@@ -34,10 +37,11 @@ class MotorClass:
         self.freq_prev = 0
         self.fr = False
         self.velocity = 0
+
+
         rospy.sleep(1)
         #self.pi = pigpio.pi()
-        #self.pi.set_PWM_frequency(self.GPIO_PWM, 1000)
-        #self.pi.set_PWM_dutycycle(self.GPIO_PWM,   0)
+
 
 
     def rasp_receive(self, message):
@@ -49,6 +53,27 @@ class MotorClass:
     def send2rasp(self):
         self.pub_info.publish(self.status + 10 * self.num)
 
+    def init_GPIOs(self):
+        '''
+        self.pi.set_PWM_frequency(self.GPIO_PWM, 500)
+        self.pi.set_PWM_dutycycle(self.GPIO_PWM,   0)
+        '''
+
+    def set_GPIOs(self, num):
+        '''
+        self.pi.write(list_GPIO_FR_SR[4], 1)
+        binary = [int(x) for x in list('{0:0b}'.format(8))]
+        for i in range(4-len(binary)):
+            binary.append(0)
+        binary = [1-x for x in binary]
+        for i in range(4):
+            self.pi.write(list_GPIO_FR_SR[i], binary[i])
+        self.pi.write(list_GPIO_FR_SR[4], 0)
+        rospy.sleep(0.001)
+        self.pi.write(list_GPIO_FR_SR[4], 1)
+        for i in range(4):
+            self.pi.write(list_GPIO_FR_SR[i], 0)
+        '''
 
     def run(self):
         rate = rospy.Rate(100)
