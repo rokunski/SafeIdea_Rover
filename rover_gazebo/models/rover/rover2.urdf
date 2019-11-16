@@ -517,8 +517,7 @@
   <gazebo reference="imu_link">
       <gravity>true</gravity>
       <sensor name="imu_sensor" type="imu">
-        <always_on>true</always_on>
-        <update_rate>100</update_rate>
+        <always_on>false</always_on>
         <visualize>true</visualize>
         <topic>__default_topic__</topic>
         <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
@@ -530,14 +529,14 @@
           <rpyOffset>0 0 0</rpyOffset>
           <frameName>imu_link</frameName>
         </plugin>
-        <pose>0 0 0 0 0 0</pose>
+        <pose>0 0  0.0 0 0 0</pose>
       </sensor>
     </gazebo>
 
     <gazebo reference="camera_link">
       <sensor name="d_camera" type="depth">
-        <pose>-0.28996  0 0.61032 0 0 0</pose>
-        <visualize>true</visualize>
+        <pose>-0.0  0 0.0 0 0 0</pose>
+        <visualize>false</visualize>
         <update_rate>10</update_rate>
         <camera>
           <horizontal_fov>1.047198</horizontal_fov>
@@ -581,8 +580,8 @@
 
     <gazebo reference="lidar_link">
       <sensor type="gpu_ray" name="head_hokuyo_sensor">
-        <pose>0 0 0.62032 0 0 0</pose>
-        <visualize>true</visualize>
+        <pose>0 0 0.0 0 0 0</pose>
+        <visualize>false</visualize>
         <update_rate>40</update_rate>
         <ray>
           <scan>
@@ -632,6 +631,20 @@
         <topicName>cmd_vel</topicName>
         <broadcastTF>true</broadcastTF>
       </plugin>
+
+
+      <plugin name="p3d_base_controller" filename="libgazebo_ros_p3d.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>50.0</updateRate>
+        <bodyName>chassis</bodyName>
+        <topicName>ground_truth/state</topicName>
+        <gaussianNoise>0.01</gaussianNoise>
+        <frameName>world</frameName>
+        <xyzOffsets>0 0 0</xyzOffsets>
+        <rpyOffsets>0 0 0</rpyOffsets>
+      </plugin>
+
+
     </gazebo>
 
 

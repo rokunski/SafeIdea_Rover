@@ -20,6 +20,10 @@
 
   <node name="rover_spawn2" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model rover2" />
 
+<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+      <remap from="/joint_states" to="/rover/joint_states" />
+  </node>
+
 
 <!--
   <rosparam file="$(find rover_gazebo)/config/config.yaml" command="load" />
