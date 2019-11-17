@@ -1,0 +1,5 @@
+/home/maf/gazebo_anim/build/CMakeFiles/edit_cache.dir
+/home/maf/gazebo_anim/build/CMakeFiles/rebuild_cache.dir
+/home/maf/gazebo_anim/build/CMakeFiles/animated_box.dir
+/home/maf/gazebo_anim/build/CMakeFiles/integrated_main.dir
+/home/maf/gazebo_anim/build/CMakeFiles/independent_listener.dir
