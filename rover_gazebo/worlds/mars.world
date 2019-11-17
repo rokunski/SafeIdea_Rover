@@ -11,13 +11,40 @@
     <include>
         <uri>model://ground_plane</uri>
     </include>
-
 -->
 
     <include>
          <uri>model://heightmap</uri>
        </include>
+       <model name="sphere">
+         <pose>0 0 1 0 0 0</pose>
+         <link name="link">
+           <collision name="collision">
+             <geometry>
+               <sphere>
+                 <radius>0.1574</radius>
+               </sphere>
+             </geometry>
+           </collision>
 
+           <visual name="visual">
+             <geometry>
+               <sphere>
+                 <radius>0.1574</radius>
+               </sphere>
+             </geometry>
+    	        <material>
+               <lighting>1</lighting>
+               <script>
+                 <uri>file://media/materials/scripts/gazebo.material</uri>
+                 <name>Gazebo/Green</name>
+               </script>
+             </material>
+   	  </visual>
+         </link>
+
+         <plugin name="push_animate" filename="libanimated_box.so"/>
+       </model>
 
     <plugin name="rover_gazebo" filename="librover_gazebo.so" />
   </world>

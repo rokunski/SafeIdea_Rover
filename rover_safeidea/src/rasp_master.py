@@ -7,12 +7,15 @@ from enumerate import Motor
 from std_msgs.msg import Byte, Float64MultiArray
 import numpy as np
 import math
+import pigpio
 
 
 """
     pierwsze 3 silniki są od prawych kół, a pozostałe od lewych
 """
 
+
+list_GPIO_FR_SR = [11,12,13,14,15,16]
 
 class Rasp:
 
@@ -67,6 +70,12 @@ class Rasp:
             self.data[i].angular = 0.0
             #self.data_PWM.append(0)
 
+        #self.pi = pigpio.pi()
+        #for i in range(len(list_GPIO_FR_SR)):
+            #self.pi.set_mode(list_GPIO_FR_SR[i], pigpio.OUTPUT)
+        # self.pi.write(list_GPIO_FR_SR[5], 1)
+        rospy.sleep(0.1)
+        # self.pi.write(list_GPIO_FR_SR[5], 0)
         rospy.sleep(1)
 
 
