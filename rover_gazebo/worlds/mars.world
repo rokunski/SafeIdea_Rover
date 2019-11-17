@@ -18,7 +18,9 @@
        </include>
        <model name="sphere">
          <pose>0 0 1 0 0 0</pose>
+         
          <link name="link">
+            <gravity>false</gravity>
            <collision name="collision">
              <geometry>
                <sphere>
