@@ -10,6 +10,7 @@ from scipy.spatial.transform import Rotation as R
 import random
 import threading
 from enumerate import State
+from copy import deepcopy
 
 
 BeaconPoints = [Vector3(-20,20,0), Vector3(20,7,0), Vector3(15,-22,0), Vector3(-14,-16,0)]
@@ -25,9 +26,9 @@ class beacon:
         self.robot_pose = Vector3(0.,0.,0.)
         self.robot_rot = Vector3(0.,0.,0.)
         self.turn_l = 0
-        self.turn_p = 0
+        self.turn = 0
         self.forward_l = 0
-        self.forward_p = 0
+        self.forward = 0
 
         self.aim = BeaconPoints[np.random.randint(0,4)]
         print(self.aim.x, " ", self.aim.y)
@@ -42,10 +43,17 @@ class beacon:
 
         self.sig = 0
         self.first = True
+        self.avoid = False
+        self.stan_bc = State.DIRECTION_SEARCH
+        self.ang_bc = 0
         self.time = 0
+        self.stop_time = 0
         self.l = []
         self.ang = 0
         self.best = 1000
+        self.left = False
+        self.which = -1
+        self.next_to = False
 
         self.sub_lidar = rospy.Subscriber('/rover/laser/scan', LaserScan, self.lidar_receive)
         self.sub_ground_truth = rospy.Subscriber('/ground_truth/state', Odometry, self.ground_receive)
@@ -92,46 +100,72 @@ class beacon:
 
         if mini < 1 and 0 < idx < 4:
             do = True
-            # self.turn_p = 0
+            if not self.avoid:
+                self.stan_bc = deepcopy(self.stan)
+                self.ang_bc = deepcopy(self.robot_rot.z)
+                self.stop_time = time.time()
+            self.avoid = True
+
+
+            # self.turn = 0
             if idx == 1:
                 self.forward_l = -0.3
                 self.turn_l = -0.15
+                self.left = False
                 #self.time = time.time()
                 #self.steer_time = 3
             elif idx == 3:
                 self.forward_l = -0.3
                 self.turn_l = 0.15
+                self.left = True
                 #self.time = time.time()
                 #self.steer_time = 3
             else:
                 self.forward_l = -0.3
                 self.turn_l = -0.15
+                self.left = False
                 #self.time = time.time()
                 #self.steer_time = 6
-        if 2.5 > mini > 1 and 0 < idx < 4:
+        if 2 > mini > 1 and 0 < idx < 4:
             do = True
+
+            if not self.avoid:
+                self.stan_bc = deepcopy(self.stan)
+                self.ang_bc = deepcopy(self.robot_rot.z)
+                self.stop_time = time.time()
+
+            self.avoid = True
+
             if idx == 1:
                 self.forward_l = -0.3
                 self.turn_l = -0.08
+                self.left = False
                 #self.time = time.time()
                 #self.steer_time = 2
             elif idx == 3:
                 self.forward_l = -0.3
                 self.turn_l = 0.08
+                self.left = True
                 #self.time = time.time()
                 #self.steer_time = 2
             else:
                 self.forward_l = -0.3
                 self.turn_l = -0.08
+                self.left = False
                 #self.time = time.time()
                 #self.steer_time = 4
         if mini < 1 and (idx == 0 or idx == 4):
             do = True
+            self.next_to = True
             if idx == 0:
+                self.left = False
                 self.turn_l = -0.08
             else:
+                self.left = True
                 self.turn_l = 0.08
         if not do:
+            self.avoid = False
+            self.next_to = False
             self.turn_l = 0
             self.forward_l = 0
 
@@ -150,8 +184,6 @@ class beacon:
         self.robot_pose.x = message.pose.pose.position.x
         self.robot_pose.y = message.pose.pose.position.y
         self.robot_pose.z = message.pose.pose.position.z
-        if self.sig == 0:
-            self.measure = True
 
         l = self.length(self.robot_pose.x, self.robot_pose.y, self.aim.x, self.aim.y)
 
@@ -170,14 +202,24 @@ class beacon:
 
     def steering(self):
         msg = Twist()
-        msg.linear.x = self.turn_p
-        msg.angular.z = self.forward_p
+        msg.linear.x = self.turn
+        msg.angular.z = self.forward
         self.pub_cmd.publish(msg)
 
     def search(self):
         while True:
             #rospy.loginfo(self.stan)
             try:
+                if self.avoid and self.stan < 10:
+                    if self.stan_bc == State.DIRECTION_SEARCH:
+                        self.stan = State.FIRST_AVOID
+                    if self.stan_bc == State.RIDE:
+                        self.stan = State.ROT_AVOID
+                    self.first = True
+                    self.forward = 0
+                    self.turn = 0
+
+
                 if self.stan == State.DIRECTION_SEARCH:
                     if self.first:
                         rospy.loginfo("Starting finding direction ...")
@@ -186,18 +228,18 @@ class beacon:
                         self.first = False
                         self.best = 1000
                     if time.time() - self.time < 8:
-                        self.forward_p = -0.3
-                        self.turn_p = 0
+                        self.forward = -0.3
+                        self.turn = 0
                         self.l.append(10 ** ((0 - self.sig - self.one_meter) / 10 / self.attenuation))
                         if self.l[-1] < 0.9:
-                            self.turn_p = 0
-                            self.forward_p = 0
+                            self.turn = 0
+                            self.forward = 0
                             self.first = True
                             self.stan = State.FINISH
                             rospy.loginfo("Finishing ...")
                     else:
-                        self.forward_p = 0
-                        self.turn_p = 0
+                        self.forward = 0
+                        self.turn = 0
                         self.first = True
                         self.stan = State.CHECKING
                         rospy.loginfo("I'm done first state ...")
@@ -214,21 +256,22 @@ class beacon:
                         self.l = []
                         self.best = 1000
                         self.first = False
-                    self.forward_p = -0.3
-                    self.turn_p = 0
+                    self.forward = -0.3
+                    self.turn = 0
                     self.l.append(10 ** ((0 - self.sig - self.one_meter) / 10 / self.attenuation))
                     if self.l[-1] < self.best:
                         self.best = self.l[-1]
                     if self.l[-1] < 0.9:
-                        self.turn_p = 0
-                        self.forward_p = 0
+                        self.turn = 0
+                        self.forward = 0
                         self.first = True
                         rospy.loginfo("Finishing ...")
                         self.stan = State.FINISH
-                    elif len(self.l) > 20:
-                        if self.l[-1] - self.best > 0.2:
-                            self.turn_p = 0
-                            self.forward_p = 0
+                    elif len(self.l) > 50:
+                        if self.l[-1] - self.best > self.best*0.1:
+                            print(self.l[-1], "    ", self.best)
+                            self.turn = 0
+                            self.forward = 0
                             self.first = True
                             self.stan = State.ROT_90
                             rospy.loginfo("Worse, 90 degree rotation ...")
@@ -237,17 +280,17 @@ class beacon:
                         #self.time = time.time()
                         rospy.loginfo("Starting rotating 180 ...")
                         self.first = False
-                        self.ang = self.robot_rot.z
+                        self.ang = deepcopy(self.robot_rot.z)
                         if self.ang < 0:
                             self.ang += np.pi
                         else:
                             self.ang -= np.pi
                     if np.abs(self.ang - self.robot_rot.z) > 0.01:
-                        self.forward_p = -0.3
-                        self.turn_p = 0.13
+                        self.forward = -0.3
+                        self.turn = 0.13
                     else:
-                        self.forward_p = 0
-                        self.turn_p = 0
+                        self.forward = 0
+                        self.turn = 0
                         self.first = True
                         self.stan = State.RIDE
                         rospy.loginfo("Finish rotation 180 ....")
@@ -256,23 +299,114 @@ class beacon:
                         #self.time = time.time()
                         rospy.loginfo("Starting rotating 90 ...")
                         self.first = False
-                        self.ang = self.robot_rot.z
+                        self.ang = deepcopy(self.robot_rot.z)
                         self.ang += np.pi/2
+                        right = True
                         if self.ang > np.pi:
                             self.ang -= 2 * np.pi
+                            right = False
                     if np.abs(self.ang - self.robot_rot.z) > 0.01:
-                        self.forward_p = -0.3
-                        self.turn_p = -0.13
+                        self.forward = -0.3
+                        self.turn = 0.13
                     else:
-                        self.forward_p = 0
-                        self.turn_p = 0
+                        self.forward = 0
+                        self.turn = 0
                         self.first = True
                         rospy.loginfo("Finish rotation 90 ...")
                         self.stan = State.DIRECTION_SEARCH
                 elif self.stan == State.FINISH:
-                    self.forward_p = 0
-                    self.turn_p = 0
-                    rospy.loginfo("I'm here")
+                    if self.first:
+                        rospy.loginfo("I'm here")
+                        self.first = False
+                    self.forward = 0
+                    self.turn = 0
+                elif self.stan == State.FIRST_AVOID:
+                    if self.stop_time - self.time < 4:
+                        self.first = True
+                        self.forward = 0
+                        self.turn = 0
+                        self.stan = State.ROT_180_AVOID
+                        self.which = 0
+                    else:
+                        self.first = True
+                        self.forward = 0
+                        self.turn = 0
+                        if self.l[0] > self.l[-1]:
+                            self.stan = State.ROT_AVOID
+                            rospy.loginfo("Needed to avoid obstacle....")
+                        else:
+                            rospy.loginfo("I'm turning around")
+                            self.which = 1
+                            self.stan = State.ROT_180_AVOID
+                elif self.stan == State.ROT_180_AVOID:
+                    if self.first:
+                        #self.time = time.time()
+                        rospy.loginfo("Starting rotating 180 ...")
+                        self.first = False
+                        self.ang = deepcopy(self.robot_rot.z)
+                        if self.ang < 0:
+                            self.ang += np.pi
+                        else:
+                            self.ang -= np.pi
+                    if np.abs(self.ang - self.robot_rot.z) > 0.01:
+                        self.forward = -0.3
+                        self.turn = 0.13
+                    else:
+                        self.forward = 0
+                        self.turn = 0
+                        self.first = True
+                        if self.which == 1:
+                            self.stan = State.RIDE
+                        else:
+                            self.stan = State.DIRECTION_SEARCH
+                        self.which = -1
+                        rospy.loginfo("Finish rotation 180 ....")
+                elif self.stan == State.ROT_AVOID:
+                    if self.first:
+                        self.first = False
+                        rospy.loginfo("Starting avoid obstacle ....")
+                    if self.avoid:
+                        self.forward = self.forward_l
+                        self.turn = self.turn_l
+                    else:
+                        self.forward = 0
+                        self.turn = 0
+                        self.first = True
+                        self.stan = State.RIDE_AVOID
+                        rospy.loginfo("Finish avoid obstacle ....")
+                elif self.stan == State.RIDE_AVOID:
+                    if self.first:
+                        rospy.loginfo("Riding until pass obstacle ....")
+                        self.first = False
+
+                    if self.next_to:
+                        self.forward = -0.3
+                        self.turn = self.turn_l
+                    else:
+                        self.forward = 0
+                        self.turn = 0
+                        self.first = True
+                        rospy.loginfo("Pass obstacle ....")
+                        self.stan = State.ROT_TO_PREV
+
+                elif self.stan == State.ROT_TO_PREV:
+                    if self.first:
+                        self.first = False
+                        rospy.loginfo("Rotating to previous angle ...")
+                    if np.abs(self.ang_bc - self.robot_rot.z) > 0.01:
+                        if self.left:
+                            self.forward = -0.3
+                            self.turn = -0.13
+                        else:
+                            self.forward = -0.3
+                            self.turn = 0.13
+                    else:
+                        self.forward = 0
+                        self.turn = 0
+                        self.first = True
+                        rospy.loginfo("Reach previous angle ...")
+                        self.stan = State.RIDE
+
 
             except KeyboardInterrupt:
                 msg = Twist()

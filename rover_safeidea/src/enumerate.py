@@ -21,8 +21,11 @@ class State(IntEnum):
     DIRECTION_SEARCH = 0
     ROT_180 = 1
     ROT_90 = 2
-    AVOID = 3
-    NEXT = 4
     RIDE = 5
     CHECKING = 6
     FINISH = 7
+    FIRST_AVOID = 13
+    ROT_180_AVOID = 14
+    ROT_AVOID = 15
+    RIDE_AVOID = 16
+    ROT_TO_PREV = 17
