@@ -32,8 +32,9 @@ class Master:
         self.pub_rasp.publish(self.msg_to_publish)
 
     def controller_receive(self, message):
-        self.controller = Joy(message.status)
-        rospy.loginfo(self.controller.name)
+        self.msg_to_publish.linear = message.forward - message.backward
+        self.msg_to_publish.angular = message.direction
+        self.send_to_rasp()
 
     def keyboard_receive(self, message):
         if message.key == ord('x'):
@@ -53,7 +54,7 @@ class Master:
                         if good != 0:
                             rospy.loginfo("Cannot run Controller node")
         elif message.key == ord('w') or message.key == ord('s') or message.key == ord('d') or message.key == ord('a') or message.key == ord('r'):
-            if self.msg_to_publish.motor_start == True:
+            if self.msg_to_publish.motor_start:
                 self.msg_to_publish.linear = message.forward - message.backward
                 self.msg_to_publish.angular = message.direction
 

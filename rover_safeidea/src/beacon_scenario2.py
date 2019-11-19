@@ -213,11 +213,14 @@ class beacon:
                 if self.avoid and self.stan < 10:
                     if self.stan_bc == State.DIRECTION_SEARCH:
                         self.stan = State.FIRST_AVOID
+                        self.first = True
+                        self.forward = 0
+                        self.turn = 0
                     if self.stan_bc == State.RIDE:
                         self.stan = State.ROT_AVOID
-                    self.first = True
-                    self.forward = 0
-                    self.turn = 0
+                        self.first = True
+                        self.forward = 0
+                        self.turn = 0
 
 
                 if self.stan == State.DIRECTION_SEARCH:

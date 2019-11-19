@@ -4,7 +4,7 @@ import rospy
 import os
 from rover_msg.msg import PC2Rasp, Master_Motor
 from enumerate import Motor
-from std_msgs.msg import Byte, Float64MultiArray
+from std_msgs.msg import Int32, Float64MultiArray
 import numpy as np
 import math
 import pigpio
@@ -16,6 +16,7 @@ import pigpio
 
 
 list_GPIO_FR_SR = [11,12,13,14,15,16]
+
 
 class Rasp:
 
@@ -44,12 +45,13 @@ class Rasp:
         self.do_operation = False
         self.l = 0
         self.done = False
+        self.disturb = False
 
         self.sub_motor_list = []
         self.motor_status = []
         for i in range(6):
             topic_name = "motor_status/{0}".format(i)
-            sub_motor = rospy.Subscriber(topic_name, Byte, self.motor_receive)
+            sub_motor = rospy.Subscriber(topic_name, Int32, self.motor_receive)
             self.sub_motor_list.append(sub_motor)
             self.motor_status.append(0)
 
@@ -78,21 +80,19 @@ class Rasp:
         # self.pi.write(list_GPIO_FR_SR[5], 0)
         rospy.sleep(1)
 
-
-
     def motor_receive(self, message):
-        nr = int(message.data/10)
-        data = Motor(message.data%10)
+        perm = int(message.data/100)
+        nr = int((message.data % 100) / 10)
+        data = Motor((message.data%100) % 10)
+        rospy.loginfo(message.data)
         if self.motor_status[nr] != data:
+            print(self.motor_status[nr], " ===>  ", data)
             self.motor_status[nr] = data
-            if self.demux_operation or self.do_operation:
+            if (self.demux_operation or (not self.do_operation and self.disturb)) and perm == 1:
+                print(perm)
                 self.msg_to_publish_list[nr].permission = False
                 self.l += 1
-        else:
-            rospy.loginfo("coś sie psuje")
-        rospy.loginfo(message)
-        if self.demux_operation or self.do_operation:
-            self.done = False
+                self.done = False
 
     def freq_receive(self, message):
         self.freq[message.data[0]] = message.data[1]
@@ -100,6 +100,7 @@ class Rasp:
     def send_to_motor_launch(self):
         rospy.loginfo("zaczynam")
         self.l = 0
+        self.disturb = True
         self.done = False
         while self.l < 6:
             if not self.done:
@@ -111,9 +112,11 @@ class Rasp:
                 self.done = not self.done
         self.demux_operation = False
         self.do_operation = False
+        self.disturb = False
 
     def send_to_motor_shut_down(self):
         self.do_operation = False
+        self.disturb = True
         for i in range(6):
             self.pub_motor_list[i].publish(self.msg_to_publish_list[i])
         if self.motor_status.count(Motor.WAITING) == 6:
@@ -122,6 +125,7 @@ class Rasp:
             while self.motor_status.count(Motor.BREAKING) == 6:
                 continue
             self.do_operation = True
+        self.disturb = False
 
     def send_to_motor(self):
         for i in range(6):
@@ -132,7 +136,6 @@ class Rasp:
             self.data[number] = message
 
         if self.data[number].angular == 0.0:
-            #self.data_PWM[number] = self.data[number].linear
             if self.freq[number] == 0.0:
                 return self.data[number].linear
             else:
@@ -144,41 +147,31 @@ class Rasp:
         else:
             ratio = self.data[number].angular / 1000 * 0.5
             if number < 3: # kola prawe
-                #if message.angular > 0.0: #odwrotnie do ruchu wskazówek zegara, dodatnie skręt w lewo
-
                 if self.freq[number] == 0.0:
-                    #self.data_PWM[number] = self.data[number].linear + self.data[number].linear * ratio
                     return self.data[number].linear + self.data[number].linear * ratio
                 else:
                     if self.data[number].linear > 0:
                         sig = 1
                     else:
                         sig = -1
-                    #self.data_PWM[number] = self.data[number].linear + self.data[number].linear * ratio
                     pwm = self.data[number].linear + self.data[number].linear * ratio
                     return pwm + sig * (self.freq[number]/1000 - pwm/255)*0.5 *255
             else:
                 if self.freq[number] == 0.0:
-                    #self.data_PWM[number] = self.data[number].linear + self.data[number].linear * ratio
                     return self.data[number].linear - self.data[number].linear * ratio
                 else:
-                    #self.data_PWM[number] = self.data[number].linear + self.data[number].linear * ratio
                     if self.data[number].linear > 0:
                         sig = 1
                     else:
                         sig = -1
                     pwm = self.data[number].linear - self.data[number].linear * ratio
-                    return pwm - sig *(self.freq[number]/1000 - pwm/255)*0.5 *255
-
-
-
-
+                    return pwm - sig *(self.freq[number]/1000 - pwm/255)*0.5 * 255
 
     def pc_receive(self, message):
         if not self.motor_start and not message.motor_start:
             return
         else:
-            if not self.demux_operation and not self.do_operation:
+            if not self.disturb and not self.demux_operation and not self.do_operation:
                 if not self.motor_start and message.motor_start:
                     self.motor_start = message.motor_start
                     for i in range(6):
@@ -212,32 +205,31 @@ class Rasp:
             return
         else:
             self.l = 0
+            self.disturb = True
             self.done = False
+            self.do_operation = False
             self.demux_operation = False
             while self.l < 6:
                 if not self.done:
                     if self.l == 6:  # czasami tu wchodzi
                         continue
-                    rospy.loginfo("wysyłam ")
+                    rospy.loginfo("wysyłam " + str(self.l))
                     self.msg_to_publish_list[self.l].permission = True
                     self.pub_motor_list[self.l].publish(self.msg_to_publish_list[self.l])
                     self.done = not self.done
-            self.demux_operation = False
-            self.do_operation = False
-
-
+            self.disturb = False
 
     def run(self):
         rate = rospy.Rate(30)
         while not rospy.is_shutdown():
             try:
                 self.operation()
-                if self.motor_status.count(Motor.BREAKING) == 6 and self.freq.count(0.0) == 6: #and prędkość == 0
+                if not self.disturb and self.motor_status.count(Motor.BREAKING) == 6 and self.freq.count(0.0) == 6: #and prędkość == 0
                     self.do_operation = True
                 if self.motor_status.count(Motor.NOT_WORKING) > 0 or self.motor_status.count(Motor.WAITING) > 0 or self.motor_status.count(Motor.BREAKING) > 0:
                     continue
                 else:
-                    if not self.do_operation and not self.demux_operation:
+                    if not self.disturb and not self.do_operation and not self.demux_operation:
                         for i in range(6):
                             vel = int(self.motor_velocity(i))
                             vel = min([255, vel])
@@ -245,7 +237,7 @@ class Rasp:
                             if vel != 0:
                                 if math.copysign(1, self.data[i].linear) != math.copysign(1, vel):
                                     vel = 0
-                            print(i, " ", vel)
+                            #print(i, " ", vel)
                             self.msg_to_publish_list[i].value = np.abs(vel)
                             if vel >= 0:
                                 self.msg_to_publish_list[i].fr = False
