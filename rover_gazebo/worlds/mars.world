@@ -4,30 +4,20 @@
   <include>
      <uri>model://sun</uri>
     </include>
-	<!--<include>
-      <uri>model://rover</uri>
-    </include>
-
+<!--
     <include>
         <uri>model://ground_plane</uri>
     </include>
 -->
-
     <include>
          <uri>model://heightmap</uri>
-       </include>
-       <model name="sphere">
+    </include>
+  
+    <model name="sphere">
          <pose>0 0 1 0 0 0</pose>
          
          <link name="link">
             <gravity>false</gravity>
-           <collision name="collision">
-             <geometry>
-               <sphere>
-                 <radius>0.1574</radius>
-               </sphere>
-             </geometry>
-           </collision>
 
            <visual name="visual">
              <geometry>
