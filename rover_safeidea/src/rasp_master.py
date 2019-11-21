@@ -208,7 +208,7 @@ class Rasp:
                         if vel != 0:
                             if math.copysign(1, message.linear) != math.copysign(1,vel):
                                 vel = 0
-                        print(i, " ", vel)
+                        # print(i, " ", vel)
                         self.msg_to_publish_list[i].value = np.abs(vel)
                         if vel >= 0:
                             self.msg_to_publish_list[i].fr = False

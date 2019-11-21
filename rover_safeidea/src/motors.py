@@ -331,8 +331,8 @@ class MotorClass:
 
 
         rospy.sleep(1)
-        self.pi = pigpio.pi()
-        self.pwm = PWM(self.pi)
+        #self.pi = pigpio.pi()
+        #self.pwm = PWM(self.pi)
         self.init_GPIOs()
         self.send2rasp()
 
@@ -355,16 +355,17 @@ class MotorClass:
         self.pi.set_PWM_dutycycle(self.GPIO_PWM,   0)
         '''
         #self.pi.hardware_PWM(self.GPIO_PWM, 500, 0)
-        self.pwm.set_frequency(500)
-        self.pi.set_mode(self.GPIO_PWM, pigpio.OUTPUT)
         #self.pwm.set_pulse_start_and_length_in_fraction(self.GPIO_PWM, 0.01, 0.01)
         #self.pwm.update()
+
+        #self.pwm.set_frequency(500)
+        #self.pi.set_mode(self.GPIO_PWM, pigpio.OUTPUT)
 
 
     def set_GPIOs(self, num):
 
-        self.pi.write(list_GPIO_FR_SR[5], 0)
-        self.pi.write(list_GPIO_FR_SR[4], 0)
+        #self.pi.write(list_GPIO_FR_SR[5], 0)
+        #self.pi.write(list_GPIO_FR_SR[4], 0)
         binary = [int(x) for x in list('{0:0b}'.format(num))]
         print(binary)
         for i in range(4-len(binary)):
@@ -372,13 +373,13 @@ class MotorClass:
         print(binary)
         binary = [1-x for x in binary]
         print(binary)
-        for i in range(4):
-            self.pi.write(list_GPIO_FR_SR[3-i], binary[i])
-        self.pi.write(list_GPIO_FR_SR[4], 1)
-        rospy.sleep(0.001)
-        self.pi.write(list_GPIO_FR_SR[4], 0)
-        for i in range(4):
-            self.pi.write(list_GPIO_FR_SR[i], 0)
+        #for i in range(4):
+        #    self.pi.write(list_GPIO_FR_SR[3-i], binary[i])
+        #self.pi.write(list_GPIO_FR_SR[4], 1)
+        #rospy.sleep(0.001)
+        #self.pi.write(list_GPIO_FR_SR[4], 0)
+        #for i in range(4):
+        #    self.pi.write(list_GPIO_FR_SR[i], 0)
 
 
     def run(self):
@@ -411,11 +412,13 @@ class MotorClass:
                     if self.status == Motor.WAITING and self.msg_to_PWM.fr == self.fr:
                         if self.msg_to_PWM.value > 0:
                             #self.pi.set_PWM_dutycycle(self.GPIO_PWM, self.msg_to_PWM.value)
-                            if self.msg_to_PWM == 0:
-                                self.pwm.set_pulse_start_and_length_in_fraction(self.GPIO_PWM, 0.00, 0.0001)
-                            else:
-                                self.pwm.set_pulse_start_and_length_in_fraction(self.GPIO_PWM, 0.01, self.msg_to_PWM.value/255)
-                            self.pwm.update()
+
+                            # if self.msg_to_PWM == 0:
+                            #     self.pwm.set_pulse_start_and_length_in_fraction(self.GPIO_PWM, 0.00, 0.0001)
+                            # else:
+                            #     self.pwm.set_pulse_start_and_length_in_fraction(self.GPIO_PWM, 0.01, self.msg_to_PWM.value/255)
+                            # self.pwm.update()
+                            #
                             #self.pi.hardware_PWM(self.GPIO_PWM, 500, self.msg_to_PWM/255*1000000)
                             self.freq_prev = self.msg_to_PWM.value
                             if self.fr:
@@ -445,11 +448,13 @@ class MotorClass:
                     elif self.status == Motor.FORWARD and not self.msg_to_PWM.fr:
                         #ustawienie PWM na pin
                         if self.freq_prev != self.msg_to_PWM.value:
-                            if self.msg_to_PWM == 0:
-                                self.pwm.set_pulse_start_and_length_in_fraction(self.GPIO_PWM, 0.0, 0.0001)
-                            else:
-                                self.pwm.set_pulse_start_and_length_in_fraction(self.GPIO_PWM, 0.01, self.msg_to_PWM.value/255)
-                            self.pwm.update()
+                            # if self.msg_to_PWM == 0:
+                            #     self.pwm.set_pulse_start_and_length_in_fraction(self.GPIO_PWM, 0.0, 0.0001)
+                            # else:
+                            #     self.pwm.set_pulse_start_and_length_in_fraction(self.GPIO_PWM, 0.01, self.msg_to_PWM.value/255)
+                            # self.pwm.update()
+                            #
+
                             #self.pi.set_PWM_dutycycle(self.GPIO_PWM, self.msg_to_PWM.value)
                             #self.pi.hardware_PWM(self.GPIO_PWM, 500, self.msg_to_PWM/255*1000000)
                             self.freq_prev = self.msg_to_PWM.value
@@ -461,19 +466,22 @@ class MotorClass:
                         if self.freq_prev != self.msg_to_PWM.value:
                             #self.pi.hardware_PWM(self.GPIO_PWM, 500, self.msg_to_PWM/255*1000000)
                             #self.pi.set_PWM_dutycycle(self.GPIO_PWM, self.msg_to_PWM.value)
-                            if self.msg_to_PWM == 0:
-                                self.pwm.set_pulse_start_and_length_in_fraction(self.GPIO_PWM, 0.0, 0.0001)
-                            else:
-                                self.pwm.set_pulse_start_and_length_in_fraction(self.GPIO_PWM, 0.01, self.msg_to_PWM.value/255)
-                            self.pwm.update()
+
+                            # if self.msg_to_PWM == 0:
+                            #     self.pwm.set_pulse_start_and_length_in_fraction(self.GPIO_PWM, 0.0, 0.0001)
+                            # else:
+                            #     self.pwm.set_pulse_start_and_length_in_fraction(self.GPIO_PWM, 0.01, self.msg_to_PWM.value/255)
+                            # self.pwm.update()
                             self.freq_prev = self.msg_to_PWM.value
                             self.send2rasp()
                             rospy.sleep(0.01)
                             rospy.loginfo(str(self.num) + " jade")
                     elif self.status == Motor.FORWARD and self.msg_to_PWM.fr:
                         #self.pi.set_PWM_dutycycle(self.GPIO_PWM, 0)
-                        self.pwm.set_pulse_start_and_length_in_fraction(self.GPIO_PWM, 0.00, 0.0001)
-                        self.pwm.update()
+
+                        # self.pwm.set_pulse_start_and_length_in_fraction(self.GPIO_PWM, 0.00, 0.0001)
+                        # self.pwm.update()
+                        #
                         #self.pi.hardware_PWM(self.GPIO_PWM, 500, 0)
                         self.freq_prev = 0
                         self.status = Motor.BREAKING
@@ -482,8 +490,9 @@ class MotorClass:
                     elif self.status == Motor.BACKWARD and not self.msg_to_PWM.fr:
                         #self.pi.set_PWM_dutycycle(self.GPIO_PWM, 0)
                         #self.pi.hardware_PWM(self.GPIO_PWM, 500, 0)
-                        self.pwm.set_pulse_start_and_length_in_fraction(self.GPIO_PWM, 0.0,0.0001)
-                        self.pwm.update()
+
+                        # self.pwm.set_pulse_start_and_length_in_fraction(self.GPIO_PWM, 0.0,0.0001)
+                        # self.pwm.update()
                         rospy.sleep(0.01)
                         self.freq_prev = 0
                         self.status = Motor.BREAKING
@@ -507,8 +516,10 @@ class MotorClass:
                 else:
                     if self.status == Motor.FORWARD:
                         #self.pi.set_PWM_dutycycle(self.GPIO_PWM, 0)
-                        self.pwm.set_pulse_start_and_length_in_fraction(self.GPIO_PWM, 0.0, 0.0001)
-                        self.pwm.update( )
+
+                        # self.pwm.set_pulse_start_and_length_in_fraction(self.GPIO_PWM, 0.0, 0.0001)
+                        # self.pwm.update( )
+
                         #self.pi.hardware_PWM(self.GPIO_PWM, 500, 0)
                         self.freq_prev = 0
                         rospy.sleep(0.01)
@@ -517,8 +528,10 @@ class MotorClass:
                         rospy.loginfo(str(self.num) + " hamuje")
                     elif self.status == Motor.BACKWARD:
                         #self.pi.set_PWM_dutycycle(self.GPIO_PWM, 0)
-                        self.pwm.set_pulse_start_and_length_in_fraction(self.GPIO_PWM, 0.0, 0.0001)
-                        self.pwm.update()
+
+                        # self.pwm.set_pulse_start_and_length_in_fraction(self.GPIO_PWM, 0.0, 0.0001)
+                        # self.pwm.update()
+
                         #self.pi.hardware_PWM(self.GPIO_PWM, 500, 0)
                         self.freq_prev = 0
                         rospy.sleep(0.01)
@@ -539,8 +552,8 @@ class MotorClass:
 
                 rate.sleep()
             except KeyboardInterrupt:
-                self.pwm.cancel()
-                self.pi.stop()
+                # self.pwm.cancel()
+                # self.pi.stop()
 
                 rospy.loginfo("Ending.........")
                 rospy.signal_shutdown('Quit')

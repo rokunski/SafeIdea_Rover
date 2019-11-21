@@ -6,6 +6,7 @@ import numpy as np
 from sensor_msgs.msg import LaserScan, Imu
 from geometry_msgs.msg import Vector3, Twist
 from nav_msgs.msg import Odometry
+from std_msgs.msg import Byte
 from scipy.spatial.transform import Rotation as R
 import random
 import threading
@@ -54,11 +55,13 @@ class beacon:
         self.left = False
         self.which = -1
         self.next_to = False
+        self.pracka = False
 
         self.sub_lidar = rospy.Subscriber('/rover/laser/scan', LaserScan, self.lidar_receive)
         self.sub_ground_truth = rospy.Subscriber('/ground_truth/state', Odometry, self.ground_receive)
         self.sub_imu = rospy.Subscriber("/rover/imu", Imu, self.imu_receive)
         self.pub_cmd = rospy.Publisher("/wireless_scenario", Twist, queue_size =10)
+        self.sub_god = rospy.Subscriber('interrupts', Byte, self.inter)
 
         rospy.sleep(1)
 
@@ -191,6 +194,11 @@ class beacon:
         rrr = random.gauss(0,0.001)
         self.sig += self.sig * rrr
 
+    def inter(self, message):
+        if message.data == 1:
+            self.pracka = True
+        else:
+            self.pracka = False
 
     @staticmethod
     def length(x1,y1,x2,y2):
@@ -208,6 +216,8 @@ class beacon:
 
     def search(self):
         while True:
+            if not self.pracka:
+                continue
             #rospy.loginfo(self.stan)
             try:
                 if self.avoid and self.stan < 10:
@@ -424,7 +434,8 @@ class beacon:
         #self.read
         while not rospy.is_shutdown():
             try:
-                self.steering()
+                if self.pracka:
+                    self.steering()
                 rate.sleep()
             except Exception as e:
                 print(e)
