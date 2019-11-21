@@ -8,6 +8,7 @@ from std_msgs.msg import Int32, Float64MultiArray
 import numpy as np
 import math
 import pigpio
+from geometry_msgs.msg import Vector3, Twist
 
 
 """
@@ -33,7 +34,7 @@ class Rasp:
             self.msg_to_publish_list.append(self.msg_to_publish)
 
         self.received_direction = 0
-        self.sub_pc = rospy.Subscriber('pc_to_rasp', PC2Rasp, self.pc_receive)
+        self.sub_pc = rospy.Subscriber('main2slave', PC2Rasp, self.pc_receive)
         self.pub_motor_list = []
         for i in range(6):
             topic_name = "rasp_motor_topic/{0}".format(i)
@@ -46,6 +47,8 @@ class Rasp:
         self.l = 0
         self.done = False
         self.disturb = False
+
+        self.pub_cmd = rospy.Publisher("/rover/cmd_vel", Twist, queue_size=10)
 
         self.sub_motor_list = []
         self.motor_status = []
@@ -79,6 +82,7 @@ class Rasp:
         rospy.sleep(0.1)
         # self.pi.write(list_GPIO_FR_SR[5], 0)
         rospy.sleep(1)
+        self.first = True
 
     def motor_receive(self, message):
         perm = int(message.data/100)
@@ -145,7 +149,7 @@ class Rasp:
                     sig = -1
                 return self.data[number].linear + sig*(self.freq[number]/1000 - self.data[number].linear/255)*0.5 *255
         else:
-            ratio = self.data[number].angular / 1000 * 0.5
+            ratio = self.data[number].angular / 1000 *0.5
             if number < 3: # kola prawe
                 if self.freq[number] == 0.0:
                     return self.data[number].linear + self.data[number].linear * ratio
@@ -167,6 +171,17 @@ class Rasp:
                     pwm = self.data[number].linear - self.data[number].linear * ratio
                     return pwm - sig *(self.freq[number]/1000 - pwm/255)*0.5 * 255
 
+    def send_to_sim(self, message):
+        msg = Twist()
+        if not message.motor_start:
+            msg.linear.x = 0
+            msg.angular.z = 0
+        else:
+            msg.linear.x = -message.angular/333.333
+            msg.angular.z = -message.linear/255
+        self.pub_cmd.publish(msg)
+
+
     def pc_receive(self, message):
         if not self.motor_start and not message.motor_start:
             return
@@ -178,11 +193,13 @@ class Rasp:
                         self.msg_to_publish_list[i].rs = True
                     self.demux_operation = True
                     self.send_to_motor_launch()
+                    self.send_to_sim(message)
                 elif self.motor_start and not message.motor_start:
                     self.motor_start = message.motor_start
                     for i in range(6):
                         self.msg_to_publish_list[i].rs = False
                     self.send_to_motor_shut_down()
+                    self.send_to_sim(message)
                 else:
                     for i in range(6):
                         vel = int(self.motor_velocity(i, message))
@@ -199,6 +216,7 @@ class Rasp:
                             self.msg_to_publish_list[i].fr = True
                     #print("\n")
                     self.send_to_motor()
+                    self.send_to_sim(message)
 
     def operation(self):
         if not self.do_operation:

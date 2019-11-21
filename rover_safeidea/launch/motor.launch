@@ -2,7 +2,7 @@
   <node pkg="rover_safeidea" type="motors.py" name="motor_node_0"  output="screen">
     <param name="number" value="0" />
   </node>
-  <node pkg="rover_safeidea" type="motors.py" name="motor_node_1"  output="screen">
+ <node pkg="rover_safeidea" type="motors.py" name="motor_node_1"  output="screen">
     <param name="number" value="1" />
   </node>
   <node pkg="rover_safeidea" type="motors.py" name="motor_node_2"  output="screen">

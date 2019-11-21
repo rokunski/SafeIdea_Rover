@@ -58,7 +58,7 @@ class beacon:
         self.sub_lidar = rospy.Subscriber('/rover/laser/scan', LaserScan, self.lidar_receive)
         self.sub_ground_truth = rospy.Subscriber('/ground_truth/state', Odometry, self.ground_receive)
         self.sub_imu = rospy.Subscriber("/rover/imu", Imu, self.imu_receive)
-        self.pub_cmd = rospy.Publisher("/rover/cmd_vel", Twist, queue_size =10)
+        self.pub_cmd = rospy.Publisher("/wireless_scenario", Twist, queue_size =10)
 
         rospy.sleep(1)
 
@@ -259,7 +259,7 @@ class beacon:
                         self.l = []
                         self.best = 1000
                         self.first = False
-                    self.forward = -0.3
+                    self.forward = -0.6
                     self.turn = 0
                     self.l.append(10 ** ((0 - self.sig - self.one_meter) / 10 / self.attenuation))
                     if self.l[-1] < self.best:
@@ -410,7 +410,6 @@ class beacon:
                         rospy.loginfo("Reach previous angle ...")
                         self.stan = State.RIDE
 
-
             except KeyboardInterrupt:
                 msg = Twist()
                 msg.linear.x = 0
@@ -422,6 +421,7 @@ class beacon:
     def run(self):
         rate = rospy.Rate(30)
         self.read = threading.Thread(target=self.search).start()
+        #self.read
         while not rospy.is_shutdown():
             try:
                 self.steering()

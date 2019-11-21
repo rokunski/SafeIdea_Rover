@@ -16,5 +16,5 @@
   </node>
   <node pkg="rover_safeidea" type="freq.py" name="freq_node_5"  output="screen">
     <param name="number" value="5" />
-  </node>
+  </node> 
 </launch>
