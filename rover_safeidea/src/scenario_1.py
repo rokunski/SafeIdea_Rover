@@ -134,6 +134,9 @@ class Scenario:
                         zmienna = (30 - self.radius)/5
                         self.turn = 0.0
                         self.forward = - 5.0 * zmienna
+                    else:
+                        self.turn = 0.0
+                        self.forward = 0.0
                 print("Results: t/f")
                 print(self.turn)
                 print(self.forward)
